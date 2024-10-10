@@ -406,9 +406,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 004fa99f8b7007ae8b32a1d29a13105a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 0
+  seed: -1281796482
   useCustomSeed: 0
   Hall_ground: {fileID: 1058540946545368470, guid: 80f116cb02c91482aa7d85f06374c730,
+    type: 3}
+  Room_ground: {fileID: 1058540946545368470, guid: 024bd7e1fac125ea48c83ed0daf49973,
     type: 3}
   Wall: {fileID: 1058540946545368470, guid: d46ceeccb79e102c9ba6ae06aa95afac, type: 3}
 --- !u!4 &445409984

@@ -15,8 +15,8 @@ public class RoomGeneration : MonoBehaviour
     public GameObject Hall_ground;
     public GameObject Wall;
 
-    // Start is called before the first frame update
-    void Start()
+    // Awake is called at the time of scene load
+    void Awake()
     {
         // Make an empty canvas on which the blueprint will be drawn using that 2d blueprint objects in 3d will be placed 
         int canvas_size = 80;
@@ -104,6 +104,12 @@ public class RoomGeneration : MonoBehaviour
         // show how many objects just spawned
         Debug.Log(counter.ToString());
         
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
     }
 
     // Update is called once per frame

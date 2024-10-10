@@ -13,6 +13,7 @@ public class RoomGeneration : MonoBehaviour
 
     // The Prefabs 
     public GameObject Hall_ground;
+    public GameObject Room_ground;
     public GameObject Wall;
 
     // Awake is called at the time of scene load

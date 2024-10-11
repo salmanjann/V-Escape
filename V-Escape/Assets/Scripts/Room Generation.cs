@@ -70,13 +70,14 @@ public class RoomGeneration : MonoBehaviour
             // Needs to be done for both sides of the hallway
             for(int j = -1; j <= 1; j+=2)
             {
-                // // random chance that room will not be made at all
-                // if(random.Next(100)<30)
-                // {
-                //     continue;
-                // }
+                // random chance that room will not be made at all
+                if(random.Next(100)<25)
+                {
+                    continue;
+                }
                 Vector2 current_room_size = new Vector2(random.Next(room_size/4,room_size/2)*2 + 1,random.Next(room_size/4,room_size/2)*2 + 1);
                 int addfactor = 0;
+                // depending on the side length needs ot be added or subtracted so these factors will be taken care at this line of the code by simply multiplying the factors with the lengths so that if its the sides turn to add to its length only then shall it be added or subtracted.
                 if(j == 1)
                 {
                     addfactor = 1;
@@ -104,16 +105,6 @@ public class RoomGeneration : MonoBehaviour
                 {
                     for(int b = (int)min.y; b != max.y;)
                     {
-                        if(a<0 || a>=canvas_size)
-                        {
-                            Debug.Log("a = "+a.ToString());
-                            Debug.Log(min.x + "" + max.x);
-                        }
-                        if(b<0 || b>=canvas_size)
-                        {
-                            Debug.Log("b = "+b.ToString());
-                            Debug.Log(min.y + "" + max.y);
-                        }
                         array[a,b] = Items_counter;
                         if(b<max.y)
                             b++;
@@ -147,7 +138,8 @@ public class RoomGeneration : MonoBehaviour
 
         // Empty parent nodes for the blocks on map so that they can be easily distinguished using inspector
         GameObject Hall_Floor_Parent = new GameObject("Hall Floor");
-        // GameObject Room_Floor_Parent = new GameObject("Room Floor");
+        GameObject Wall_Parent = new GameObject("Wall");
+        // list of rooms as all rooms need to be placed differently
         List<GameObject> Room_Floor_Parents = new List<GameObject>();
 
         foreach(int room in Room_ground_set)
@@ -155,7 +147,6 @@ public class RoomGeneration : MonoBehaviour
             GameObject temp = new GameObject("Room Floor "+room.ToSafeString());
             Room_Floor_Parents.Add(temp);
         }
-        GameObject Wall_Parent = new GameObject("Wall");
 
         // Finally scan the whole blueprint and spawn objects accordingly
         for(int i = 0; i < canvas_size; i++)
@@ -184,6 +175,7 @@ public class RoomGeneration : MonoBehaviour
                     var temp = Instantiate(Room_ground);
                     temp.transform.position = new Vector3(i,0,j);
                     GameObject roomobj = null;
+                    // place the room floor tiles in their respective parent object
                     foreach (GameObject o in Room_Floor_Parents)
                     {
                         if(o.name == "Room Floor "+array[i,j].ToSafeString())

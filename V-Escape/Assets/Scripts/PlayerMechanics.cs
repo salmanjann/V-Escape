@@ -5,10 +5,14 @@ using UnityEngine;
 public class PlayerMechanics : MonoBehaviour
 {
     public GameObject Camera;
+    private GameObject MergedBody;
     // Start is called before the first frame update
     void Start()
     {
-        
+        // First make the camera and the Player cobine into the same object so that they can be syncronized
+        MergedBody = new GameObject("Player Entity");
+        this.transform.SetParent(MergedBody.transform);
+        Camera.transform.SetParent(MergedBody.transform);
     }
 
     // Update is called once per frame

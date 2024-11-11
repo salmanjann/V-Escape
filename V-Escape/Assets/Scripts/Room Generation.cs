@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -20,11 +19,11 @@ public class RoomGeneration : MonoBehaviour
     void Awake()
     {
         // Make an empty canvas on which the blueprint will be drawn using that 2d blueprint objects in 3d will be placed 
-        int canvas_size = 1000;
+        int canvas_size = 10000/10;
         // set the max size the hall can have (bad approach but gotta roll with this one)
-        int hall_size = 20;
+        int hall_size = 800/10;
         // set the max size the room can have (bad approach but gotta roll with this one)
-        int room_size = 9;
+        int room_size = 100/10;
 
         // sets that hold integer ids describing what section on canvas is their region
         HashSet<int> Hall_ground_set = new HashSet<int>();
@@ -52,7 +51,7 @@ public class RoomGeneration : MonoBehaviour
         // assign starting position on canvas to the Hall
         Vector2 start_hall = new Vector2(random.Next(canvas_size/4,canvas_size/4*3),random.Next(canvas_size/4,canvas_size/4*3));
         // assign the hall its size and make sure its odd so that the hall will always havea center point.
-        Vector2 size = new Vector2(random.Next(hall_size/8,hall_size/2)*2 + 1,random.Next(hall_size/8,hall_size/2)*2 + 1);
+        Vector2 size = new Vector2(random.Next(hall_size/4,hall_size/2)*2 + 1,random.Next(hall_size/16,hall_size/8)*2 + 1);
 
         // Assign Hall area on the canvas by drawing it manually then increment the item counter
         for(int i = (int)start_hall.x; i < start_hall.x + size.x; i++)

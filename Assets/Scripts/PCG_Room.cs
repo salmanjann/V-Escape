@@ -42,8 +42,7 @@ public class PCG_Room : MonoBehaviour
     private Matrix4x4[] wallMatrixArray;
     private Matrix4x4[] wallMatrixDoorArray;
     private Matrix4x4[] wallMatrixBrokenArray;
-
-    private BoxCollider floorCollider;
+    Matrix4x4[] pillarArray;
 
     // Start is called before the first frame update
     void Start()
@@ -94,6 +93,7 @@ public class PCG_Room : MonoBehaviour
         CreateWalls();
         CreatePillars();
         CreateFloor();
+        CreateColliders();
     }
 
     void RenderRoom()
@@ -138,6 +138,7 @@ public class PCG_Room : MonoBehaviour
             wallMatricesDoor.Add(mat);
         }
     }
+
     void CreateWalls()
     {
         // Initial Seed
@@ -203,12 +204,6 @@ public class PCG_Room : MonoBehaviour
         wallMatrixArray = wallMatrices.ToArray();
         wallMatrixDoorArray = wallMatricesDoor.ToArray();
         wallMatrixBrokenArray = wallMatricesBroken.ToArray();
-        for (int i = 0; i < wallMatrixDoorArray.Length; i++)
-        {
-            Vector3 position = wallMatrixDoorArray[i].GetColumn(3); // Extract the position
-            Debug.Log($"Door {i} Position: {position}");
-        }
-
     }
 
     void RenderWalls()
@@ -221,6 +216,7 @@ public class PCG_Room : MonoBehaviour
         if (wallMatrixDoorArray.Length > 0)
         {
             Graphics.DrawMeshInstanced(wallMeshDoor, 0, texture, wallMatrixDoorArray, wallMatrixDoorArray.Length);
+
         }
 
         if (wallMatrixBrokenArray.Length > 0)
@@ -248,13 +244,15 @@ public class PCG_Room : MonoBehaviour
             Matrix4x4 mat = Matrix4x4.TRS(pos, transform.rotation, Vector3.one);
             pillars.Add(mat);
         }
+
+        pillarArray = pillars.ToArray();
+
     }
 
     void RenderPillars()
     {
         if (pillars.Count > 0)
         {
-            Matrix4x4[] pillarArray = pillars.ToArray();
             Graphics.DrawMeshInstanced(pillarMesh, 0, texture, pillarArray, pillarArray.Length);
         }
     }
@@ -280,17 +278,6 @@ public class PCG_Room : MonoBehaviour
                 floor.Add(mat);
             }
         }
-
-        // // If there's an existing collider, destroy it before adding a new one
-        // if (floorCollider != null)
-        // {
-        //     Destroy(floorCollider);  // Remove the old collider
-        // }
-
-        // // Add a big BoxCollider to cover the entire floor
-        // floorCollider = gameObject.AddComponent<BoxCollider>();
-        // floorCollider.size = new Vector3(roomSize.x + 2, 1, roomSize.y + 2); // size of the collider to match the room dimensions
-        // floorCollider.center = new Vector3(0, -0.5f, roomSize.y / 2 + 0.5f); // adjust the center of the collider to match the floor's height and position
     }
 
     void RenderFloor()
@@ -333,6 +320,213 @@ public class PCG_Room : MonoBehaviour
         //     Gizmos.DrawWireCube(floorCollider.center, floorCollider.size);
         // }
     }
+    #region Colliders
+    // Remove all existing MeshColliders before adding new ones
+    void ClearExistingChilds()
+    {
+        // Find and destroy all child objects
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+            Transform child = transform.GetChild(i);
+            Destroy(child.gameObject);
+        }
+    }
+
+    // Create colliders for doors
+    void CreateColliders()
+    {
+        ClearExistingChilds();
+
+        // Door Colliders
+        // Parent Door Collider object
+        GameObject doorColliders = new GameObject("Door Colliders");
+        doorColliders.transform.parent = this.transform;
+        for (int i = 0; i < wallMatrixDoorArray.Length; i++)
+        {
+            Vector3 position = wallMatrixDoorArray[i].GetColumn(3);
+            Debug.Log("Position " + position.ToString());
+            Quaternion rotation = Quaternion.LookRotation(wallMatrixDoorArray[i].GetColumn(2), wallMatrixDoorArray[i].GetColumn(1));
+
+            // Create a child GameObject for each door collider
+            GameObject doorColliderObj = new GameObject($"Door Collider_{i}");
+            doorColliderObj.transform.parent = doorColliders.transform;
+            doorColliderObj.transform.position = position;
+            doorColliderObj.transform.rotation = rotation;
+
+            MeshCollider meshCollider = doorColliderObj.AddComponent<MeshCollider>();
+            meshCollider.sharedMesh = wallMeshDoor;
+
+        }
+
+        // Floor Collider
+        Vector3 floorPosition = new Vector3(0, -0.5f, roomSize.y / 2 + 0.5f);
+
+        // Create a child GameObject for floor collider
+        GameObject floorColliderObj = new GameObject("FloorCollider");
+        floorColliderObj.transform.parent = this.transform;
+        floorColliderObj.transform.position = floorPosition;
+
+        BoxCollider boxCollider = floorColliderObj.AddComponent<BoxCollider>();
+        boxCollider.size = new Vector3(roomSize.x + 2, 1, roomSize.y + 2);
+
+        // Pillar Colliders
+        // Parent Pillar Collider object
+        GameObject pillarColliders = new GameObject("Pillar Colliders");
+        pillarColliders.transform.parent = this.transform;
+        for (int i = 0; i < pillarArray.Length; i++)
+        {
+            Vector3 position = pillarArray[i].GetColumn(3);
+
+            // Create a child GameObject for each pillar collider
+            GameObject pillarColliderObj = new GameObject($"PillarCollider_{i}");
+            pillarColliderObj.transform.parent = pillarColliders.transform;
+            pillarColliderObj.transform.position = position;
+
+            BoxCollider pillarCollider = pillarColliderObj.AddComponent<BoxCollider>();
+            pillarCollider.size = new Vector3(1.5f, 4.0f, 1.5f);
+            pillarCollider.center = new Vector3(0.0f, 2.0f, 0.0f);
+        }
+
+        // Parent object for left right colliders
+        GameObject leftRightColliders = new GameObject("Left Right Colliders");
+        leftRightColliders.transform.parent = this.transform;
+
+        // Parent object for full wall colliders
+        GameObject fullWallColliders = new GameObject("Full Wall Colliders");
+        fullWallColliders.transform.parent = this.transform;
+        // Colliders for remaining walls
+        for (int i = 1, j = 1; i <= 4; i++)
+        {
+            if (i <= nDoors)
+            {
+                float doorPosition = (i % 2 == 1) ? wallMatrixDoorArray[i - 1].GetColumn(3).x : wallMatrixDoorArray[i - 1].GetColumn(3).z;
+
+                int leftWallCount = (i % 2 == 1) ? (int)Mathf.Abs(-roomSize.x / 2 + 2 - doorPosition) / 4 : (int)(roomSize.y - doorPosition) / 4;
+
+                int rightWallCount = (i % 2 == 1) ? (int)Mathf.Abs(roomSize.x / 2 - 2 - doorPosition) / 4 : (int)(doorPosition - 2.5f) / 4;
+
+                if (leftWallCount > 0)
+                {
+                    float positionX;
+                    float positionZ;
+                    Quaternion rotation = (i % 2 == 1) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 90, 0);
+                    if (i % 2 == 1)
+                    {
+                        positionX = doorPosition - 2 - Mathf.Abs(-roomSize.x / 2 - (doorPosition - 2)) / 2;
+                        positionZ = (i == 1) ? 0.0f : roomSize.y + 1.0f;
+                    }
+                    else
+                    {
+                        positionZ = (doorPosition + 2 + roomSize.y + 0.5f) / 2;
+                        positionX = (i == 2) ? -roomSize.x / 2 - 0.5f : roomSize.x / 2 + 0.5f;
+
+                    }
+                    GameObject leftColliderObj = new GameObject($"Left {i}");
+                    leftColliderObj.transform.parent = leftRightColliders.transform;
+                    leftColliderObj.transform.position = new Vector3(positionX, 2.0f, positionZ);
+                    leftColliderObj.transform.rotation = rotation;
+
+                    BoxCollider leftCollider = leftColliderObj.AddComponent<BoxCollider>();
+                    leftCollider.size = new Vector3(leftWallCount * 4.0f, 4.0f, 1.0f);
+                }
+
+                if (rightWallCount > 0)
+                {
+                    float positionX;
+                    float positionZ;
+                    Quaternion rotation = (i % 2 == 1) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 90, 0);
+                    if (i % 2 == 1)
+                    {
+                        positionX = doorPosition + 2 + Mathf.Abs(roomSize.x / 2 - (doorPosition + 2)) / 2;
+                        positionZ = (i == 1) ? 0.0f : roomSize.y + 1.0f;
+                    }
+                    else
+                    {
+                        positionZ = (doorPosition - 2 + 0.5f) / 2; ;
+                        positionX = (i == 2) ? -roomSize.x / 2 - 0.5f : roomSize.x / 2 + 0.5f;
+                    }
+                    GameObject rightColliderObj = new GameObject($"Right {i}");
+                    rightColliderObj.transform.parent = leftRightColliders.transform;
+                    rightColliderObj.transform.position = new Vector3(positionX, 2.0f, positionZ);
+                    rightColliderObj.transform.rotation = rotation;
+
+                    BoxCollider rightCollider = rightColliderObj.AddComponent<BoxCollider>();
+                    rightCollider.size = new Vector3(rightWallCount * 4.0f, 4.0f, 1.0f);
+                }
+            }
+            else
+            {
+                float positionX;
+                float positionZ;
+                Quaternion rotation = (i % 2 == 1) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 90, 0);
+
+                if (i % 2 == 1)
+                {
+                    positionX = 0.0f;
+                    positionZ = (i == 1) ? 0.0f : roomSize.y + 1.0f;
+                }
+                else
+                {
+                    positionX = (i == 2) ? -roomSize.x / 2 - 0.5f : roomSize.x / 2 + 0.5f;
+                    positionZ = roomSize.y / 2 + 0.5f;
+                }
+
+                GameObject fullColliderObj = new GameObject($"Full Wall Collider {j}"); 
+                fullColliderObj.transform.parent = fullWallColliders.transform;
+                fullColliderObj.transform.position = new Vector3(positionX, 2.0f, positionZ);
+                fullColliderObj.transform.rotation = rotation;
+
+                BoxCollider fullCollider = fullColliderObj.AddComponent<BoxCollider>();
+                fullCollider.size = (i%2==1) ? new Vector3(wallCountX * 4.0f, 4.0f, 1.0f) : new Vector3(wallCountY * 4.0f, 4.0f, 1.0f);
+
+                j++;
+            }
+        }
+
+        // Broken Wall Colliders
+        // Parent BrokenWall Collider object
+        // GameObject brokenWallColliders = new GameObject("Broken Wall Colliders");
+        // brokenWallColliders.transform.parent = this.transform;
+        // for (int i = 0; i < wallMatrixBrokenArray.Length; i++)
+        // {
+        //     Vector3 position = wallMatrixBrokenArray[i].GetColumn(3);
+        //     Debug.Log("Position " + position.ToString());
+        //     Quaternion rotation = Quaternion.LookRotation(wallMatrixBrokenArray[i].GetColumn(2), wallMatrixBrokenArray[i].GetColumn(1));
+
+        //     // Create a child GameObject for each brokenWall collider
+        //     GameObject brokenWallColliderObj = new GameObject($"Broken Wall Collider_{i}");
+        //     brokenWallColliderObj.transform.parent = brokenWallColliders.transform;
+        //     brokenWallColliderObj.transform.position = position;
+        //     brokenWallColliderObj.transform.rotation = rotation;
+
+        //     MeshCollider meshCollider = brokenWallColliderObj.AddComponent<MeshCollider>();
+        //     meshCollider.sharedMesh = wallMeshBroken;
+
+        // }
+
+        // Simple Wall Collider
+        // Parent Wall Collider object
+        // GameObject wallColliders = new GameObject("Wall Matrix Colliders");
+        // wallColliders.transform.parent = this.transform;
+        // for (int i = 0; i < wallMatrixArray.Length; i++)
+        // {
+        //     Vector3 position = wallMatrixArray[i].GetColumn(3);
+        //     Debug.Log("Position " + position.ToString());
+        //     Quaternion rotation = Quaternion.LookRotation(wallMatrixArray[i].GetColumn(2), wallMatrixArray[i].GetColumn(1));
+
+        //     // Create a child GameObject for each wall collider
+        //     GameObject wallColliderObj = new GameObject($"Wall Matrix Collider_{i}");
+        //     wallColliderObj.transform.parent = wallColliders.transform;
+        //     wallColliderObj.transform.position = position;
+        //     wallColliderObj.transform.rotation = rotation;
+
+        //     BoxCollider boxColliderWall = wallColliderObj.AddComponent<BoxCollider>();
+        //     boxColliderWall.size = new Vector3(4.0f, 4.0f, 1.0f);
+        //     boxColliderWall.center = new Vector3(0.0f, 2.0f, 0.0f);
+        // }
+
+    }
+    #endregion
 
     #region Cell Class
     enum CellTag { Inside, Outside };

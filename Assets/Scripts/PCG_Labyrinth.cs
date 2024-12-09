@@ -6,7 +6,7 @@ public class PCG_Labyrinth : MonoBehaviour
 {
     [Header("Labyrinth Configuration")]
     [SerializeField]
-    Vector2 labyrinthSize = new Vector2(4.0f, 4.0f); // Size of whole map
+    Vector2 labyrinthLengthSize = new Vector2(4.0f, 4.0f); // Size of whole map
     Vector2 prevLabSize;
 
     [Header("Meshes and Materials")]
@@ -29,20 +29,24 @@ public class PCG_Labyrinth : MonoBehaviour
 
     Matrix4x4[] wallMatrixArray;
 
+    private float lengthMultiples;
+    private Vector2 labyrinthSize;
+
     // Start is called before the first frame update
     void Start()
     {
+        lengthMultiples = 4f;
+        AssignLabyrinthSize();
         prevLabSize = labyrinthSize;
         prevSeed = seed;
-
         texture.enableInstancing = true;
         CreateWalls();
 
     }
-
     // Update is called once per frame
     void Update()
     {
+        AssignLabyrinthSize();
         if (labyrinthSize != prevLabSize || seed != prevSeed)
         {
             prevLabSize = labyrinthSize;
@@ -52,6 +56,11 @@ public class PCG_Labyrinth : MonoBehaviour
         RenderWalls();
     }
 
+    // Convert the user given size to a size that is compatible with the meshes
+    private void AssignLabyrinthSize()
+    {
+        labyrinthSize = labyrinthLengthSize * lengthMultiples;
+    }
     #region Wall Generation
     struct WallConfig
     {

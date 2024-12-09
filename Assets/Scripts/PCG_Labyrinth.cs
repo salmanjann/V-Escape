@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class PCG_Labyrinth : MonoBehaviour
 {
+    [Header("Grid Configuration")]
+    [SerializeField]
+    Vector2 Grid = new Vector2(1f, 1f); // Size of whole map
     [Header("Labyrinth Configuration")]
     [SerializeField]
-    Vector2 labyrinthLengthSize = new Vector2(4.0f, 4.0f); // Size of whole map
+    Vector2 labyrinthLengthSize = new Vector2(1f, 1f); // Size of whole map
     Vector2 prevLabSize;
+    Vector2 prevGrid;
 
     [Header("Meshes and Materials")]
     [SerializeField]
@@ -28,14 +32,13 @@ public class PCG_Labyrinth : MonoBehaviour
     List<Matrix4x4> wallMatrices;
 
     Matrix4x4[] wallMatrixArray;
+    List<Matrix4x4[]> wallMatrixArrayList;
 
-    private float lengthMultiples;
     private Vector2 labyrinthSize;
 
     // Start is called before the first frame update
     void Start()
     {
-        lengthMultiples = 4f;
         AssignLabyrinthSize();
         prevLabSize = labyrinthSize;
         prevSeed = seed;
@@ -47,8 +50,9 @@ public class PCG_Labyrinth : MonoBehaviour
     void Update()
     {
         AssignLabyrinthSize();
-        if (labyrinthSize != prevLabSize || seed != prevSeed)
+        if (labyrinthSize != prevLabSize || seed != prevSeed || prevGrid != Grid)
         {
+            prevGrid = Grid;
             prevLabSize = labyrinthSize;
             prevSeed = seed;
             CreateWalls();
@@ -59,7 +63,7 @@ public class PCG_Labyrinth : MonoBehaviour
     // Convert the user given size to a size that is compatible with the meshes
     private void AssignLabyrinthSize()
     {
-        labyrinthSize = labyrinthLengthSize * lengthMultiples;
+        labyrinthSize = labyrinthLengthSize * wallSpacing;
     }
     #region Wall Generation
     struct WallConfig
@@ -76,6 +80,7 @@ public class PCG_Labyrinth : MonoBehaviour
         Random.InitState(seed);
 
         wallMatrices = new List<Matrix4x4>();
+        wallMatrixArrayList = new List<Matrix4x4[]>();
 
         int labyrinthSizeNewX = ((int)labyrinthSize.x) / 2;
         int labyrinthSizeNewY = ((int)labyrinthSize.y) / 2;
@@ -83,57 +88,73 @@ public class PCG_Labyrinth : MonoBehaviour
         wallCountX = labyrinthSizeNewX >= 2 ? labyrinthSizeNewX / 2 : 1;
         wallCountY = labyrinthSizeNewY >= 2 ? labyrinthSizeNewY / 2 : 1;
 
-        // Define wall axes configurations
-        var wallConfigs = new List<WallConfig>
+        for (int i = 0; i < (int)Grid.x; i++)
         {
-            new WallConfig
+            for (int j = 0; j < (int)Grid.y; j++)
             {
-                Count = wallCountX,
-                StartPosition = transform.position + new Vector3(-(labyrinthSizeNewX - 2), 0, 0),
-                Direction = Vector3.right,
-                Rotation = Quaternion.identity
-            },
-            new WallConfig
-            {
-                Count = wallCountY,
-                StartPosition = transform.position + new Vector3(-labyrinthSizeNewX - 0.5f, 0, 2.5f),
-                Direction = Vector3.forward,
-                Rotation = Quaternion.Euler(0f, 90f, 0f)
-            },
-            new WallConfig
-            {
-                Count = wallCountX,
-                StartPosition = transform.position + new Vector3(-(labyrinthSizeNewX - 2), 0, wallCountY * wallSpacing + 1f),
-                Direction = Vector3.right,
-                Rotation = Quaternion.identity
-            },
-            new WallConfig
-            {
-                Count = wallCountY,
-                StartPosition = transform.position + new Vector3(labyrinthSizeNewX + 0.5f, 0, 2.5f),
-                Direction = Vector3.forward,
-                Rotation = Quaternion.Euler(0f, 90f, 0f)
-            }
-        };
+                // Offset each grid cell
+                // Vector3 gridOffset = new Vector3(i * (labyrinthSizeNewX + wallSpacing), 0, j * (labyrinthSizeNewY + wallSpacing));
+                Vector3 gridOffset = new Vector3(i * (labyrinthSize.x - 2 + wallSpacing), 0, j * (labyrinthSize.y - 2 + wallSpacing));
 
-        foreach (var config in wallConfigs)
-        {
-            for (int i = 0; i < config.Count; i++)
-            {
-                Vector3 wallTransform = config.StartPosition + config.Direction * (wallSpacing * i);
-                Matrix4x4 mat = Matrix4x4.TRS(wallTransform, config.Rotation, Vector3.one);
-                wallMatrices.Add(mat);
+                // Define wall axes configurations
+                var wallConfigs = new List<WallConfig>
+                {
+                    new WallConfig
+                    {
+                        Count = wallCountX,
+                        StartPosition = transform.position + gridOffset + new Vector3(-(labyrinthSizeNewX - 2), 0, 0),
+                        Direction = Vector3.right,
+                        Rotation = Quaternion.identity
+                    },
+                    new WallConfig
+                    {
+                        Count = wallCountY,
+                        StartPosition = transform.position + gridOffset + new Vector3(-labyrinthSizeNewX - 0.5f, 0, 2.5f),
+                        Direction = Vector3.forward,
+                        Rotation = Quaternion.Euler(0f, 90f, 0f)
+                    },
+                    new WallConfig
+                    {
+                        Count = wallCountX,
+                        StartPosition = transform.position + gridOffset + new Vector3(-(labyrinthSizeNewX - 2), 0, wallCountY * wallSpacing + 1f),
+                        Direction = Vector3.right,
+                        Rotation = Quaternion.identity
+                    },
+                    new WallConfig
+                    {
+                        Count = wallCountY,
+                        StartPosition = transform.position + gridOffset + new Vector3(labyrinthSizeNewX + 0.5f, 0, 2.5f),
+                        Direction = Vector3.forward,
+                        Rotation = Quaternion.Euler(0f, 90f, 0f)
+                    }
+                };
+
+                // Generate walls for the current grid cell
+                foreach (var config in wallConfigs)
+                {
+                    for (int k = 0; k < config.Count; k++)
+                    {
+                        Vector3 wallTransform = config.StartPosition + config.Direction * (wallSpacing * k);
+                        Matrix4x4 mat = Matrix4x4.TRS(wallTransform, config.Rotation, Vector3.one);
+                        wallMatrices.Add(mat);
+                    }
+                }
             }
         }
 
+        // Convert to array and add to list
         wallMatrixArray = wallMatrices.ToArray();
+        wallMatrixArrayList.Add(wallMatrixArray);
     }
 
     void RenderWalls()
     {
-        if (wallMatrixArray.Length > 0)
+        foreach(Matrix4x4[] wallMatrixArray_ in wallMatrixArrayList)
         {
-            Graphics.DrawMeshInstanced(wallMesh, 0, texture, wallMatrixArray, wallMatrixArray.Length);
+            if (wallMatrixArray_.Length > 0)
+            {
+                Graphics.DrawMeshInstanced(wallMesh, 0, texture, wallMatrixArray_, wallMatrixArray_.Length);
+            }
         }
     }
     #endregion

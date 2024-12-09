@@ -32,7 +32,7 @@ public class PCG_Labyrinth : MonoBehaviour
     List<Matrix4x4> wallMatrices;
 
     Matrix4x4[] wallMatrixArray;
-    List<Matrix4x4[]> wallMatrixArrayList;
+    // List<Matrix4x4[]> wallMatrixArrayList;
 
     private Vector2 labyrinthSize;
 
@@ -80,7 +80,7 @@ public class PCG_Labyrinth : MonoBehaviour
         Random.InitState(seed);
 
         wallMatrices = new List<Matrix4x4>();
-        wallMatrixArrayList = new List<Matrix4x4[]>();
+        // wallMatrixArrayList = new List<Matrix4x4[]>();
 
         int labyrinthSizeNewX = ((int)labyrinthSize.x) / 2;
         int labyrinthSizeNewY = ((int)labyrinthSize.y) / 2;
@@ -144,17 +144,14 @@ public class PCG_Labyrinth : MonoBehaviour
 
         // Convert to array and add to list
         wallMatrixArray = wallMatrices.ToArray();
-        wallMatrixArrayList.Add(wallMatrixArray);
+        // wallMatrixArrayList.Add(wallMatrixArray);
     }
 
     void RenderWalls()
     {
-        foreach(Matrix4x4[] wallMatrixArray_ in wallMatrixArrayList)
+        if (wallMatrixArray.Length > 0)
         {
-            if (wallMatrixArray_.Length > 0)
-            {
-                Graphics.DrawMeshInstanced(wallMesh, 0, texture, wallMatrixArray_, wallMatrixArray_.Length);
-            }
+            Graphics.DrawMeshInstanced(wallMesh, 0, texture, wallMatrixArray, wallMatrixArray.Length);
         }
     }
     #endregion

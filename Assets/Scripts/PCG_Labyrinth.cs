@@ -296,7 +296,50 @@ public class PCG_Labyrinth : MonoBehaviour
 
         // Convert to array and add to list
         wallMatrixArray = wallMatrices.ToArray();
+        Add_WallColliders();
         // wallMatrixArrayList.Add(wallMatrixArray);
+    }
+
+    private void Add_WallColliders()
+    {
+        // Simple Wall Collider
+        // Parent Wall Collider object
+        GameObject wallColliders = GameObject.Find("Wall Matrix Colliders");
+        if(wallColliders != null)
+        {
+            int i = 0;
+            GameObject wallColliders_child;
+            while(true)
+            {
+                wallColliders_child = GameObject.Find($"Wall Matrix Collider_{i}");
+                if(wallColliders_child != null)
+                {
+                    Destroy(wallColliders_child);
+                    i++;
+                    continue;
+                }
+                break;
+            }
+            Destroy(wallColliders);
+        }
+        wallColliders = new GameObject("Wall Matrix Colliders");
+        wallColliders.transform.parent = this.transform;
+        for (int i = 0; i < wallMatrixArray.Length; i++)
+        {
+            Vector3 position = wallMatrixArray[i].GetColumn(3);
+            Debug.Log("Position " + position.ToString());
+            Quaternion rotation = Quaternion.LookRotation(wallMatrixArray[i].GetColumn(2), wallMatrixArray[i].GetColumn(1));
+
+            // Create a child GameObject for each wall collider
+            GameObject wallColliderObj = new GameObject($"Wall Matrix Collider_{i}");
+            wallColliderObj.transform.parent = wallColliders.transform;
+            wallColliderObj.transform.position = position;
+            wallColliderObj.transform.rotation = rotation;
+
+            BoxCollider boxColliderWall = wallColliderObj.AddComponent<BoxCollider>();
+            boxColliderWall.size = new Vector3(4.0f, 4.0f, 1.0f);
+            boxColliderWall.center = new Vector3(0.0f, 2.0f, 0.0f);
+        }
     }
 
     void RenderWalls()

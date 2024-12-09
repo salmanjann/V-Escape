@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+// using System.Numerics;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PCG_Labyrinth : MonoBehaviour
 {
@@ -84,6 +86,30 @@ public class PCG_Labyrinth : MonoBehaviour
             parent = parent_;
             child = child_;
         }
+    }
+    private List<Vector2Int> getChildren(Vector2Int parent,List<parentchildNode> path)
+    {
+        List<Vector2Int> children = new List<Vector2Int>();
+        foreach(parentchildNode node in path)
+        {
+            if(node.parent == parent && node.child != node.parent)
+            {
+                children.Add(node.child);
+            }
+        }
+        return children;
+    }
+    private List<Vector2Int> getParent(Vector2Int child,List<parentchildNode> path)
+    {
+        List<Vector2Int> parents = new List<Vector2Int>();
+        foreach(parentchildNode node in path)
+        {
+            if(node.child == child && node.child != node.parent)
+            {
+                parents.Add(node.parent);
+            }
+        }
+        return parents;
     }
 
     private List<parentchildNode> MakePath(Vector2Int parent, Vector2Int current, List<Vector2Int> possible)
@@ -168,7 +194,7 @@ public class PCG_Labyrinth : MonoBehaviour
     {
         // Initial Seed
         Random.InitState(seed);
-        Get_Paths();
+        List<parentchildNode> paths = Get_Paths();
 
         wallMatrices = new List<Matrix4x4>();
         // wallMatrixArrayList = new List<Matrix4x4[]>();
@@ -219,6 +245,41 @@ public class PCG_Labyrinth : MonoBehaviour
                         Rotation = Quaternion.Euler(0f, 90f, 0f)
                     }
                 };
+                Vector2Int current = new Vector2Int(i,j);
+                List<Vector2Int> parents = getParent(current, paths);
+                List<Vector2Int> children = getChildren(current, paths);
+                List<Vector2Int> destinations = new List<Vector2Int>();
+                destinations.AddRange(parents);
+                parents = null;
+                destinations.AddRange(children);
+                children = null;
+                List<Vector2Int> removal = new List<Vector2Int>();
+
+                foreach(Vector2Int destination in destinations)
+                {
+                    var pos = destination - current;
+                    if(!removal.Contains(pos))
+                    {
+                        removal.Add(pos);
+                    }
+                }
+
+                if(removal.Contains(new Vector2Int(1,0)))
+                {
+                    wallConfigs.RemoveAt(3);
+                }
+                if(removal.Contains(new Vector2Int(0,1)))
+                {
+                    wallConfigs.RemoveAt(2);
+                }
+                if(removal.Contains(new Vector2Int(-1,0)))
+                {
+                    wallConfigs.RemoveAt(1);
+                }
+                if(removal.Contains(new Vector2Int(0,-1)))
+                {
+                    wallConfigs.RemoveAt(0);
+                }
 
                 // Generate walls for the current grid cell
                 foreach (var config in wallConfigs)

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PCG_Labyrinth : MonoBehaviour
 {
     [Header("Grid Configuration")]
     [SerializeField]
-    Vector2 Grid = new Vector2(1f, 1f); // Size of whole map
+    Vector2Int Grid = new Vector2Int(10, 10); // Size of whole map
     [Header("Labyrinth Configuration")]
     [SerializeField]
     Vector2 labyrinthLengthSize = new Vector2(1f, 1f); // Size of whole map
@@ -74,10 +75,100 @@ public class PCG_Labyrinth : MonoBehaviour
         public Quaternion Rotation;
     }
 
+    private class parentchildNode
+    {
+        public Vector2Int parent;
+        public Vector2Int child;
+        public parentchildNode(Vector2Int parent_, Vector2Int child_)
+        {
+            parent = parent_;
+            child = child_;
+        }
+    }
+
+    private List<parentchildNode> MakePath(Vector2Int parent, Vector2Int current, List<Vector2Int> possible)
+    {
+        List<parentchildNode> list = new List<parentchildNode>();
+        if(possible.Count == 0)
+        {
+            parentchildNode node = new parentchildNode(parent,current);
+            list.Add(node);
+            return list;
+        }
+        List<Vector2Int> Moves = new List<Vector2Int>();
+        for(int i = -1; i <= 1; i += 2)
+        {
+            for(int j = 0; j <= 1; j ++)
+            {
+                int x_ = 0, y_ = 0;
+                if(j == 0)
+                {
+                    x_ = i;
+                }
+                else
+                {
+                    y_ = i;
+                }
+                Vector2Int newMove = current + new Vector2Int(x_,y_);
+                if(newMove.x < 0 || newMove.x >= Grid.x)
+                {
+                    continue;
+                }
+                if(newMove.y < 0 || newMove.y >= Grid.y)
+                {
+                    continue;
+                }
+                Moves.Add(newMove);
+            }
+        }
+        while(Moves.Count > 0)
+        {
+            int index = Random.Range(0,Moves.Count);
+            Vector2Int move_made = Moves[index];
+            Moves.RemoveAt(index);
+            if(possible.Contains(move_made))
+            {
+                possible.Remove(move_made);
+                List<parentchildNode> path = MakePath(current, move_made,possible);
+                list.AddRange(path);
+            }
+            else if(!possible.Contains(move_made) && Random.Range(0,100) < 10)
+            {
+                list.Add(new parentchildNode(current,move_made));
+            }
+        }
+        list.Add(new parentchildNode(parent,current));
+        return list;
+    }
+
+    private List<parentchildNode> Get_Paths()
+    {
+        List<Vector2Int> possible = new List<Vector2Int>();
+
+        for(int i = 0; i < Grid.x; i++)
+        {
+            for(int j = 0; j < Grid.y; j++)
+            {
+                possible.Add(new Vector2Int(i,j));
+            }   
+        }
+        List<parentchildNode> result = MakePath(new Vector2Int(0,0),new Vector2Int(0,0),possible);
+        // if(possible.Count>0)
+        // {
+        //     Debug.Log("Not all possibilities covered... " + possible.Count.ToString() + "remain");
+        // }
+        // else
+        // {
+        //     Debug.Log("All possibilities covered");
+        // }
+        return result;
+    }
+
     void CreateWalls()
     {
         // Initial Seed
         Random.InitState(seed);
+        Get_Paths();
 
         wallMatrices = new List<Matrix4x4>();
         // wallMatrixArrayList = new List<Matrix4x4[]>();
@@ -88,9 +179,9 @@ public class PCG_Labyrinth : MonoBehaviour
         wallCountX = labyrinthSizeNewX >= 2 ? labyrinthSizeNewX / 2 : 1;
         wallCountY = labyrinthSizeNewY >= 2 ? labyrinthSizeNewY / 2 : 1;
 
-        for (int i = 0; i < (int)Grid.x; i++)
+        for (int i = 0; i < Grid.x; i++)
         {
-            for (int j = 0; j < (int)Grid.y; j++)
+            for (int j = 0; j < Grid.y; j++)
             {
                 // Offset each grid cell
                 // Vector3 gridOffset = new Vector3(i * (labyrinthSizeNewX + wallSpacing), 0, j * (labyrinthSizeNewY + wallSpacing));

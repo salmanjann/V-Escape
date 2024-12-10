@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 3634774550676476521}
   - component: {fileID: 4547066676186516416}
   - component: {fileID: 5376298172865183335}
+  - component: {fileID: 1578280056225003630}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -281,3 +282,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   orientation: {fileID: 1756349380113649118}
+--- !u!114 &1578280056225003630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8227154356199303457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9998632beddcd90438f9cd225e142e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCam: {fileID: 0}
+  collectablePos: {fileID: 0}
+  layername:
+    serializedVersion: 2
+    m_Bits: 128
+  objectDistance: 2

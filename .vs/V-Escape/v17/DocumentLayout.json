@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "E:\\V-Escape\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|e:\\v-escape\\assets\\scripts\\player_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|e:\\v-escape\\assets\\scripts\\pickanddrop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\pickanddrop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|e:\\v-escape\\assets\\scripts\\player_camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player_camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|E:\\V-Escape\\assets\\scripts\\camera_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\camera_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|e:\\v-escape\\assets\\scripts\\collectableobjects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\collectableobjects.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +18,33 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Player_Movement.cs",
-              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\Player_Movement.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player_Movement.cs",
-              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\Player_Movement.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player_Movement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T16:35:48.979Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Player_Camera.cs",
-              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\Player_Camera.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Player_Camera.cs",
-              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\Player_Camera.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Player_Camera.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAVAAAAAAAAAA==",
+              "Title": "CollectAbleObjects.cs",
+              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\CollectAbleObjects.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\CollectAbleObjects.cs",
+              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\CollectAbleObjects.cs",
+              "RelativeToolTip": "Assets\\Scripts\\CollectAbleObjects.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T16:22:21.564Z",
+              "WhenOpened": "2024-12-10T22:31:44.837Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Camera_Movement.cs",
-              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\Camera_Movement.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Camera_Movement.cs",
-              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\Camera_Movement.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Camera_Movement.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAwAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "PickandDrop.cs",
+              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\PickandDrop.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PickandDrop.cs",
+              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\PickandDrop.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PickandDrop.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T16:11:32.829Z"
+              "WhenOpened": "2024-12-10T22:13:05.839Z",
+              "EditorCaption": ""
             }
           ]
         }

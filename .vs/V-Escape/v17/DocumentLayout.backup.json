@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "E:\\V-Escape\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|E:\\V-Escape\\assets\\scripts\\player_camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player_camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|e:\\v-escape\\assets\\scripts\\pickanddrop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\pickanddrop.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|E:\\V-Escape\\assets\\scripts\\playermechanics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\playermechanics.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|E:\\V-Escape\\assets\\scripts\\player_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|E:\\V-Escape\\assets\\scripts\\player_camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\player_camera.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8D3F2938-2390-3257-0804-CE9D5C962C83}|Assembly-CSharp.csproj|E:\\V-Escape\\assets\\scripts\\camera_movement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,6 +31,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PickandDrop.cs",
+              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\PickandDrop.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PickandDrop.cs",
+              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\PickandDrop.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PickandDrop.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAQwBkAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T22:13:05.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Player_Movement.cs",
+              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\Player_Movement.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Player_Movement.cs",
+              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\Player_Movement.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Player_Movement.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAYwAoAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T16:35:48.979Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Player_Camera.cs",
               "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\Player_Camera.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Player_Camera.cs",
@@ -34,12 +64,11 @@
               "RelativeToolTip": "Assets\\Scripts\\Player_Camera.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-10T16:22:21.564Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-10T16:22:21.564Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Camera_Movement.cs",
               "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\Camera_Movement.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Camera_Movement.cs",
@@ -48,18 +77,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-10T16:11:32.829Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PlayerMechanics.cs",
-              "DocumentMoniker": "E:\\V-Escape\\Assets\\Scripts\\PlayerMechanics.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\PlayerMechanics.cs",
-              "ToolTip": "E:\\V-Escape\\Assets\\Scripts\\PlayerMechanics.cs",
-              "RelativeToolTip": "Assets\\Scripts\\PlayerMechanics.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABEAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-12T00:59:37.147Z"
             }
           ]
         }

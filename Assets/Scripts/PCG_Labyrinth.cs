@@ -74,7 +74,7 @@ public class PCG_Labyrinth : MonoBehaviour
             CreateWalls();
             CreateFloor();
         }
-        // RenderWalls();
+        RenderWalls();
         RenderFloor();
     }
     // add GPU instancing to material
@@ -360,6 +360,7 @@ public class PCG_Labyrinth : MonoBehaviour
 
             // Create a child GameObject for each wall collider
             GameObject wallColliderObj = new GameObject($"Wall Matrix Collider_{i}");
+            wallColliderObj.tag = "Wall";
             wallColliderObj.transform.parent = wallColliders.transform;
             wallColliderObj.transform.position = position;
             wallColliderObj.transform.rotation = rotation;
@@ -444,6 +445,7 @@ public class PCG_Labyrinth : MonoBehaviour
             Destroy(floor_Collider);
         }
         floor_Collider = new GameObject("Floor Collider");
+        floor_Collider.tag = "Floor";
         floor_Collider.transform.parent = this.transform;
         floor_Collider.transform.position = new Vector3(this.transform.position.x + ((Grid.x - 1) * wallSpacing * labyrinthLengthSize.x)/2 + (Grid.x - 1), this.transform.position.y-1, this.transform.position.z + labyrinthLengthSize.y * Grid.y * wallSpacing /2 + (Grid.y-1));
         // floorcollider = floor_Collider.AddComponent<BoxCollider>();

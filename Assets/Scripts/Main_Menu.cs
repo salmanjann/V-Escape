@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class Main_Menu : MonoBehaviour
 {
@@ -10,10 +10,12 @@ public class Main_Menu : MonoBehaviour
     public GameObject controls;
     public GameObject settings;
 
-    /*public Slider volumeSlider;
+    public Slider volumeSlider;
 
-    public AudioSource audioSource;
-    public AudioClip background;*/
+
+
+    public Text sound;
+    private bool isMuted;
 
     // Start is called before the first frame update
     void Start()
@@ -21,18 +23,28 @@ public class Main_Menu : MonoBehaviour
         mainMenu.SetActive(true);
         settings.SetActive(false);
         controls.SetActive(false);
-/*
+
         if (PlayerPrefs.HasKey("Volume"))
         {
             PlayerPrefs.SetFloat("Volume", 1);
-            Load();
+            loadVoulme();
         }
         else
         {
-            Load();
+            loadVoulme();
         }
-        audioSource.clip = background;
-        audioSource.Play();*/
+
+        if (!PlayerPrefs.HasKey("Muted"))
+        {
+            PlayerPrefs.SetInt("Muted", 0);
+            loadSound();
+        }
+        else
+        {
+            loadSound();
+        }
+        updateSoundText();
+        AudioListener.pause = isMuted;
     }
 
     // Update is called once per frame
@@ -53,36 +65,74 @@ public class Main_Menu : MonoBehaviour
         settings.SetActive(false);
     }
 
-    public void backtbn()
+    public void backbtn()
     {
         settings.SetActive(false);
         controls.SetActive(false);
     }
 
-    public void playtbtnclicked()
+    public void playbtnclicked()
     {
         //SceneManager.LoadScene(1);
         Debug.Log("Play");
     }
-    /*
+
+    public void exitbtnclicked()
+    {
+        Application.Quit();
+    }
+    
     public void changeVolume()
     {
         AudioListener.volume = volumeSlider.value;
-        Save();
+        saveVolume();
     }
 
-    public void Load()
+    public void loadVoulme()
     {
         volumeSlider.value = PlayerPrefs.GetFloat("Volume");
     }
 
-    public void Save()
+    public void saveVolume()
     {
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
     }
 
-    public void playButton()
+    public void soundBtn()
     {
-        audioSource.Play();
-    }*/
+        if (isMuted == false)
+        {
+            isMuted = true;
+            AudioListener.pause = true;
+        }
+        else
+        {
+            isMuted = false;
+            AudioListener.pause = false;
+        }
+        saveSound();
+        updateSoundText();
+    }
+
+    public void loadSound()
+    {
+        isMuted = PlayerPrefs.GetInt("Muted") == 1;
+    }
+
+    public void saveSound()
+    {
+        PlayerPrefs.SetInt("Muted", isMuted ? 1 : 0);
+    }
+
+    public void updateSoundText()
+    {
+        if (isMuted == false)
+        {
+            sound.text = "ON";
+        }
+        else
+        {
+            sound.text = "OFF";
+        }
+    }
 }

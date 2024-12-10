@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+
 // using System.Numerics;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -72,7 +74,7 @@ public class PCG_Labyrinth : MonoBehaviour
             CreateWalls();
             CreateFloor();
         }
-        RenderWalls();
+        // RenderWalls();
         RenderFloor();
     }
     // add GPU instancing to material
@@ -403,8 +405,74 @@ public class PCG_Labyrinth : MonoBehaviour
                 }
             }
         }
-
+        Create_Floor_Collider();
     }
+
+    private void Create_Floor_Collider_()
+    {
+        GameObject floor_Collider = GameObject.Find("Floor Collider");
+        if (floor_Collider != null)
+        {
+            Destroy(floor_Collider);
+        }
+        floor_Collider = new GameObject("Floor Collider");
+
+        // Calculate grid size based on wallCountX and wallCountY
+        int gridSizeX = wallCountX * 2 + 1;
+        int gridSizeY = wallCountY * 2 + 1;
+
+        // Calculate the total floor dimensions
+        float totalWidth = gridSizeX * Grid.x * 2 * labyrinthLengthSize.x;
+        float totalHeight = gridSizeY * Grid.y * 2 * labyrinthLengthSize.y;
+
+        // Position the floor collider to cover the entire floor area
+        floor_Collider.transform.position = new Vector3(
+            this.transform.position.x + (totalWidth - wallSpacing) / 2,
+            this.transform.position.y - 1,
+            this.transform.position.z + (totalHeight - wallSpacing) / 2
+        );
+
+        // Add a BoxCollider and set its size
+        BoxCollider boxCollider = floor_Collider.AddComponent<BoxCollider>();
+        boxCollider.size = new Vector3(totalWidth, 1, totalHeight); // Adjust height if needed
+    }
+    private void Create_Floor_Collider()
+    {
+        GameObject floor_Collider = GameObject.Find("Floor Collider");
+        if(floor_Collider != null)
+        {
+            Destroy(floor_Collider);
+        }
+        floor_Collider = new GameObject("Floor Collider");
+        floor_Collider.transform.parent = this.transform;
+        floor_Collider.transform.position = new Vector3(this.transform.position.x + ((Grid.x - 1) * wallSpacing * labyrinthLengthSize.x)/2 + (Grid.x - 1), this.transform.position.y-1, this.transform.position.z + labyrinthLengthSize.y * Grid.y * wallSpacing /2 + (Grid.y-1));
+        // floorcollider = floor_Collider.AddComponent<BoxCollider>();
+        floor_Collider.AddComponent<BoxCollider>();
+        var scale = floor_Collider.transform.localScale;
+        scale.x *= Grid.x * wallSpacing * labyrinthLengthSize.x + (Grid.x - 1) * wallSpacing / 2;
+        scale.z *= Grid.y * wallSpacing * labyrinthLengthSize.y + (Grid.y - 1) * wallSpacing / 2;
+        floor_Collider.transform.localScale = scale;
+    }
+    // private BoxCollider floorcollider;
+    // private void OnDrawGizmos()
+    // {
+    //     if (floorcollider != null)
+    //     {
+    //         // Set Gizmos color
+    //         Gizmos.color = new Color(0, 1, 0, 0.3f); // Semi-transparent green
+
+    //         // Calculate the floorcollider's world position and size
+    //         Vector3 center = floorcollider.transform.TransformPoint(floorcollider.center);
+    //         Vector3 size = Vector3.Scale(floorcollider.size, floorcollider.transform.lossyScale);
+
+    //         // Draw a cube at the collider's position with its size
+    //         Gizmos.DrawCube(center, size);
+
+    //         // Optional: Draw the outline
+    //         Gizmos.color = Color.green; // Solid green
+    //         Gizmos.DrawWireCube(center, size);
+    //     }
+    // }
 
     void RenderFloor()
     {

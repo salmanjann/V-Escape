@@ -30,6 +30,14 @@ public class Teleporter : MonoBehaviour
     {
         
     }
+    private void DeleteConditions()
+    {
+        if(transform.position.y<10f)
+        {
+            Destroy(Pair);
+            Destroy(gameObject);
+        }
+    }
 
     private void OnTriggerEnter(Collider obj)
     {
@@ -40,6 +48,11 @@ public class Teleporter : MonoBehaviour
             var position = Pair.transform.position;
             var coordinates = new Vector3(position.x,obj.transform.position.y,position.z);
             player_gimmics.TeleportActivation(coordinates);
+        }
+        else if(obj.CompareTag("Wall"))
+        {
+            var temp = this.transform.position;
+            this.transform.position = new Vector3(temp.x + 1f, temp.y, temp.z + 1f);
         }
     }
 }

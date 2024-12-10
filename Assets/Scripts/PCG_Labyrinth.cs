@@ -10,6 +10,11 @@ using UnityEngine.Rendering;
 
 public class PCG_Labyrinth : MonoBehaviour
 {
+    [Header("Level Items")]
+    public GameObject TeleporterPrefab;
+    public GameObject Artifact;
+    [Header("Item Number")]
+    public int TeleporterCount;
     [Header("Loop Chance")]
     public int RandomTravel = 3;
     private int prevRandomTravel;
@@ -61,7 +66,56 @@ public class PCG_Labyrinth : MonoBehaviour
         prevSeed = seed;
         texture.enableInstancing = true;
         CreateWalls();
+        // Now Spawn The Objects
+        spawnTeleporters();
+    }
+    private void spawnTeleporters()
+    {
+        UnityEngine.Random.InitState(seed);
+        // delete old game objects
+        if(true)
+        {
+            int i = 0;
+            while(true)
+            {
+                var temp = GameObject.Find($"Teleporter {i+1}");
+                if(temp != null)
+                {
+                    var t1 = GameObject.Find($"TeleporterA {i+1}");
+                    var t2 = GameObject.Find($"TeleporterB {i+1}");
+                    Destroy(t1);
+                    Destroy(t2);
+                    Destroy(temp);
+                    i++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            var temp2 = GameObject.Find("Teleporters");
+            Destroy(temp2);
+        }
 
+        GameObject superParent = new GameObject("Teleporters");
+        for(int i = 0; i < TeleporterCount; i++)
+        {
+            GameObject Parent = new GameObject($"Teleporter {i+1}");
+            Parent.transform.parent = superParent.transform;
+            var t1 = Instantiate(TeleporterPrefab);
+            var t2 = Instantiate(TeleporterPrefab);
+            t1.transform.parent = Parent.transform;
+            t2.transform.parent = Parent.transform;
+            t1.name = $"TeleporterA {i+1}";
+            t2.name = $"TeleporterB {i+1}";
+            // t1.transform.position = new Vector3(UnityEngine.Random.Range(2,(Grid.x-1) * labyrinthLengthSize.y * wallSpacing/2) * labyrinthLengthSize.x * wallSpacing,0f,UnityEngine.Random.Range(1,(Grid.y-1) * labyrinthLengthSize.y * wallSpacing/2));
+            // t1.transform.position = new Vector3(UnityEngine.Random.Range(2,Grid.x-1-2) * labyrinthLengthSize.x * wallSpacing,0f,UnityEngine.Random.Range(2,Grid.y-1-2) * labyrinthLengthSize.y * wallSpacing);
+            // t1.transform.position = new Vector3(UnityEngine.Random.Range(0,Grid.x-1) * labyrinthLengthSize.x * wallSpacing / 2,0f,UnityEngine.Random.Range(0,Grid.y - 1) * labyrinthLengthSize.y * wallSpacing / 2);
+            t1.transform.position = new Vector3(UnityEngine.Random.Range(0,Grid.x-1 >= 1 ? Grid.x : 1) * labyrinthLengthSize.x * wallSpacing,0f,UnityEngine.Random.Range(0,Grid.y-1 >= 1 ? Grid.y : 1) * labyrinthLengthSize.y * wallSpacing);
+            t2.transform.position = new Vector3(UnityEngine.Random.Range(0,Grid.x-1 >= 1 ? Grid.x : 1) * labyrinthLengthSize.x * wallSpacing,0f,UnityEngine.Random.Range(0,Grid.y-1 >= 1 ? Grid.y : 1) * labyrinthLengthSize.y * wallSpacing);
+            t1.GetComponent<Teleporter>().Pair = t2;
+            t2.GetComponent<Teleporter>().Pair = t1;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -69,6 +123,7 @@ public class PCG_Labyrinth : MonoBehaviour
         AssignLabyrinthSize();
         if (labyrinthSize != prevLabSize || seed != prevSeed || prevGrid != Grid || prevRandomTravel != RandomTravel)
         {
+            UnityEngine.Random.InitState(seed);
             if(random_seed)
             {
                 seed = UnityEngine.Random.Range(0,(int)Math.Pow(2,29));
@@ -79,6 +134,7 @@ public class PCG_Labyrinth : MonoBehaviour
             prevSeed = seed;
             CreateWalls();
             CreateFloor();
+            spawnTeleporters();
         }
         RenderWalls();
         RenderFloor();

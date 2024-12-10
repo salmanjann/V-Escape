@@ -406,6 +406,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b18983978cdd605a0dc3cd102c20cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TeleporterPrefab: {fileID: 1023155946846360499, guid: 1cbfd7f6da0003d3cae03e072968b88f,
+    type: 3}
+  Artifact: {fileID: 7816829225084632193, guid: 67c7af1a89bdcd2db86090e92087a93e,
+    type: 3}
+  TeleporterCount: 5
   RandomTravel: 5
   Grid: {x: 10, y: 10}
   labyrinthLengthSize: {x: 4, y: 4}

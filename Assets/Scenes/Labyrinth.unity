@@ -479,11 +479,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b18983978cdd605a0dc3cd102c20cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {x: 20, y: 20}
+  Grid: {x: 10, y: 10}
   labyrinthLengthSize: {x: 4, y: 4}
   wallMesh: {fileID: -6281424698479989189, guid: ecdfa5ad5068f1342a0002d06730a678,
     type: 3}
+  floorMesh: {fileID: 4631617266764534578, guid: 9ead81277ea000c409f2dd357c08f2fd,
+    type: 3}
+  stone: {fileID: 963798294112862009, guid: 4cb1770429eb60845a481ff2c332f97b, type: 3}
   texture: {fileID: 6892232844440235036, guid: ecdfa5ad5068f1342a0002d06730a678, type: 3}
+  random_seed: 1
   seed: 1234
 --- !u!4 &1495611837
 Transform:

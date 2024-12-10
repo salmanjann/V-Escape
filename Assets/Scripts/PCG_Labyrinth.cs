@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +18,19 @@ public class PCG_Labyrinth : MonoBehaviour
     Vector2 prevGrid;
 
     [Header("Meshes and Materials")]
-    [SerializeField]
-    Mesh wallMesh;
+    // [SerializeField]
+    public Mesh wallMesh;
+    public Mesh floorMesh;
+
+    public Material stone;
+
     [SerializeField]
     Material texture;
 
     [Header("Randomization")]
     [SerializeField]
-
-    int seed = 1234;
+    public bool random_seed = false;
+    public int seed = 1234;
     int prevSeed;
 
     // Other Vars
@@ -33,6 +38,7 @@ public class PCG_Labyrinth : MonoBehaviour
     int wallCountY;
     float wallSpacing = 4.0f;
     List<Matrix4x4> wallMatrices;
+    List<Matrix4x4> floor;
 
     Matrix4x4[] wallMatrixArray;
     // List<Matrix4x4[]> wallMatrixArrayList;
@@ -42,6 +48,7 @@ public class PCG_Labyrinth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EnableInstancingForMaterial(stone);
         AssignLabyrinthSize();
         prevLabSize = labyrinthSize;
         prevSeed = seed;
@@ -55,12 +62,31 @@ public class PCG_Labyrinth : MonoBehaviour
         AssignLabyrinthSize();
         if (labyrinthSize != prevLabSize || seed != prevSeed || prevGrid != Grid)
         {
+            if(random_seed)
+            {
+                seed = UnityEngine.Random.Range(0,(int)Math.Pow(2,29));
+            }
             prevGrid = Grid;
             prevLabSize = labyrinthSize;
             prevSeed = seed;
             CreateWalls();
+            CreateFloor();
         }
         RenderWalls();
+        RenderFloor();
+    }
+    // add GPU instancing to material
+    void EnableInstancingForMaterial(Material material)
+    {
+        if (material != null && !material.enableInstancing)
+        {
+            material.enableInstancing = true;
+            Debug.Log("GPU Instancing enabled for material: " + material.name);
+        }
+        else if (material == null)
+        {
+            Debug.LogError("Material is null. Cannot enable GPU Instancing.");
+        }
     }
 
     // Convert the user given size to a size that is compatible with the meshes
@@ -149,7 +175,7 @@ public class PCG_Labyrinth : MonoBehaviour
         }
         while(Moves.Count > 0)
         {
-            int index = Random.Range(0,Moves.Count);
+            int index = UnityEngine.Random.Range(0,Moves.Count);
             Vector2Int move_made = Moves[index];
             Moves.RemoveAt(index);
             if(possible.Contains(move_made))
@@ -158,7 +184,7 @@ public class PCG_Labyrinth : MonoBehaviour
                 List<parentchildNode> path = MakePath(current, move_made,possible);
                 list.AddRange(path);
             }
-            else if(!possible.Contains(move_made) && Random.Range(0,100) < 10)
+            else if(!possible.Contains(move_made) && UnityEngine.Random.Range(0,100) < 10)
             {
                 list.Add(new parentchildNode(current,move_made));
             }
@@ -193,7 +219,7 @@ public class PCG_Labyrinth : MonoBehaviour
     void CreateWalls()
     {
         // Initial Seed
-        Random.InitState(seed);
+        UnityEngine.Random.InitState(seed);
         List<parentchildNode> paths = Get_Paths();
 
         wallMatrices = new List<Matrix4x4>();
@@ -350,4 +376,44 @@ public class PCG_Labyrinth : MonoBehaviour
         }
     }
     #endregion
+
+    #region Floor Generation
+    void CreateFloor()
+    {
+        int gridSizeX = wallCountX * 2 + 1;
+        int gridSizeY = wallCountY * 2 + 1;
+
+        floor = new List<Matrix4x4>();
+        for(int a = 0; a < Grid.x; a++)
+        {
+            for(int b = 0; b < Grid.y; b++)
+            {
+                for (int i = 0; i < gridSizeY; i++)
+                {
+                    for (int j = 0; j < gridSizeX; j++)
+                    {
+                        Vector3 gridOffset = new Vector3(a * (labyrinthSize.x - 2 + wallSpacing), 0, b * (labyrinthSize.y - 2 + wallSpacing));
+
+                        Vector3 tileTransform = gridOffset + new Vector3(-wallSpacing*labyrinthLengthSize.x / 2 + 2 * j, -1, 0.5f + 2 * i);
+
+                        Matrix4x4 mat = Matrix4x4.TRS(tileTransform, transform.rotation, new Vector3(1, 1, 1));
+
+                        floor.Add(mat);
+                    }
+                }
+            }
+        }
+
+    }
+
+    void RenderFloor()
+    {
+        if (floor.Count > 0)
+        {
+            Matrix4x4[] floorArray = floor.ToArray();
+            Graphics.DrawMeshInstanced(floorMesh, 0, stone, floorArray, floorArray.Length);
+        }
+    }
+    #endregion
+
 }

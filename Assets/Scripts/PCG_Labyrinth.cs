@@ -68,6 +68,18 @@ public class PCG_Labyrinth : MonoBehaviour
         CreateWalls();
         // Now Spawn The Objects
         spawnTeleporters();
+        spawnArtifact();
+    }
+    private void spawnArtifact()
+    {
+        UnityEngine.Random.InitState(seed);
+        GameObject artifact = GameObject.Find("Artifact");
+        if(artifact != null)
+        {
+            Destroy(artifact);
+        }
+        artifact = Instantiate(Artifact);
+        artifact.transform.position = new Vector3(UnityEngine.Random.Range(0,Grid.x-1 >= 1 ? Grid.x : 1) * labyrinthLengthSize.x * wallSpacing,0f,UnityEngine.Random.Range(0,Grid.y-1 >= 1 ? Grid.y : 1) * labyrinthLengthSize.y * wallSpacing);
     }
     private void spawnTeleporters()
     {

@@ -10,6 +10,10 @@ using UnityEngine.Rendering;
 
 public class PCG_Labyrinth : MonoBehaviour
 {
+    [Header("Loop Chance")]
+    public int RandomTravel = 3;
+    private int prevRandomTravel;
+
     [Header("Grid Configuration")]
     [SerializeField]
     Vector2Int Grid = new Vector2Int(10, 10); // Size of whole map
@@ -50,6 +54,7 @@ public class PCG_Labyrinth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        prevRandomTravel = RandomTravel;
         EnableInstancingForMaterial(stone);
         AssignLabyrinthSize();
         prevLabSize = labyrinthSize;
@@ -62,12 +67,13 @@ public class PCG_Labyrinth : MonoBehaviour
     void Update()
     {
         AssignLabyrinthSize();
-        if (labyrinthSize != prevLabSize || seed != prevSeed || prevGrid != Grid)
+        if (labyrinthSize != prevLabSize || seed != prevSeed || prevGrid != Grid || prevRandomTravel != RandomTravel)
         {
             if(random_seed)
             {
                 seed = UnityEngine.Random.Range(0,(int)Math.Pow(2,29));
             }
+            prevRandomTravel = RandomTravel;
             prevGrid = Grid;
             prevLabSize = labyrinthSize;
             prevSeed = seed;
@@ -186,7 +192,7 @@ public class PCG_Labyrinth : MonoBehaviour
                 List<parentchildNode> path = MakePath(current, move_made,possible);
                 list.AddRange(path);
             }
-            else if(!possible.Contains(move_made) && UnityEngine.Random.Range(0,100) < 10)
+            else if(!possible.Contains(move_made) && UnityEngine.Random.Range(0,100) < RandomTravel)
             {
                 list.Add(new parentchildNode(current,move_made));
             }

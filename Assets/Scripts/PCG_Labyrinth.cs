@@ -239,7 +239,7 @@ public class PCG_Labyrinth : MonoBehaviour
             {
                 // Offset each grid cell
                 // Vector3 gridOffset = new Vector3(i * (labyrinthSizeNewX + wallSpacing), 0, j * (labyrinthSizeNewY + wallSpacing));
-                Vector3 gridOffset = new Vector3(i * (labyrinthSize.x - 2 + wallSpacing), 0, j * (labyrinthSize.y - 2 + wallSpacing));
+                Vector3 gridOffset = new Vector3(i * (labyrinthSize.x - 2 + wallSpacing/2), 0, j * (labyrinthSize.y - 2 + wallSpacing/2));
 
                 // Define wall axes configurations
                 var wallConfigs = new List<WallConfig>

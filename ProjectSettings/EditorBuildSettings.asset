@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main_Menu.unity
     guid: cf3064d9f62319d48bd2cd893166d4ca
+  - enabled: 1
+    path: Assets/Scenes/Labyrinth.unity
+    guid: 8019eb55f2636180580aa9e0838ab8ec
+  - enabled: 1
+    path: Assets/Scenes/Practice_PCG.unity
+    guid: 5017be84e9ea28b47a004a61f21ca20a
   m_configObjects: {}

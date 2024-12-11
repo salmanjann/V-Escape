@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PCG_Room : MonoBehaviour
 {
@@ -29,30 +31,45 @@ public class PCG_Room : MonoBehaviour
 
     [Header("Other Variables")]
     public Color gridColor = Color.green;
-    private int wallCountX;
-    private int wallCountY;
-    private float wallSpacing = 4.0f;
-    private float pillarOffset = 0.25f;
+    int wallCountX;
+    int wallCountY;
+    float wallSpacing = 4.0f;
+    float pillarOffset = 0.25f;
     List<Matrix4x4> wallMatrices;
     List<Matrix4x4> wallMatricesDoor;
     List<Matrix4x4> wallMatricesBroken;
     List<Matrix4x4> pillars;
     List<Matrix4x4> floor;
 
-    private Matrix4x4[] wallMatrixArray;
-    private Matrix4x4[] wallMatrixDoorArray;
-    private Matrix4x4[] wallMatrixBrokenArray;
+    Matrix4x4[] wallMatrixArray;
+    Matrix4x4[] wallMatrixDoorArray;
+    Matrix4x4[] wallMatrixBrokenArray;
     Matrix4x4[] pillarArray;
+
+    // Room Positions
+    int stairsCorner;
+    public GameObject stairsPrefab;
+    private GameObject prefabHolder;
+
+    // First Inside Room
+    List<Matrix4x4> wallMatrices1;
+    List<Matrix4x4> wallMatricesDoor1;
+    List<Matrix4x4> wallMatricesBroken1;
+
+    Matrix4x4[] wallMatrixArray1;
+    Matrix4x4[] wallMatrixDoorArray1;
+    Matrix4x4[] wallMatrixBrokenArray1;
 
     // Start is called before the first frame update
     void Start()
     {
         ValidateComponents();
         EnableGPUInstancing();
-        CreateRoom();
 
         prevSize = roomSize;
         prevSeed = seed;
+
+        CreateRoom();
     }
 
     // Update is called once per frame
@@ -101,6 +118,7 @@ public class PCG_Room : MonoBehaviour
         RenderWalls();
         RenderPillars();
         RenderFloor();
+        RenderInsideFirstRoom();
     }
 
     #region Wall Generation
@@ -139,6 +157,153 @@ public class PCG_Room : MonoBehaviour
         }
     }
 
+    void createStairs()
+    {
+        stairsCorner = Mathf.FloorToInt(Random.Range(0f, 4f));
+        // stairsCorner = 2;
+
+        if (prefabHolder != null)
+        {
+            Destroy(prefabHolder);
+        }
+        Vector3 stairsTransform = new Vector3(0f, 0f, 0f);
+        if (stairsCorner == 0)
+        {
+            stairsTransform = new Vector3(-(roomSize.x / 2) + 2, 0f, 0f);
+        }
+        else if (stairsCorner == 1)
+        {
+            stairsTransform = new Vector3(-(roomSize.x / 2) - 0.5f, 0f, (wallCountY - 1) * 4 + 2.5f);
+        }
+        else if (stairsCorner == 2)
+        {
+            stairsTransform = new Vector3(+(roomSize.x / 2) - 2, 0f, wallCountY * wallSpacing + 1f);
+        }
+        else if (stairsCorner == 3)
+        {
+            stairsTransform = new Vector3((roomSize.x / 2) + 0.5f, 0f, 2.5f);
+        }
+
+        Quaternion rotation = Quaternion.Euler(0f, 90f * (stairsCorner + 1) % 360, 0f);
+
+        prefabHolder = Instantiate(stairsPrefab, stairsTransform, rotation);
+
+    }
+    void FirstInsideRoom()
+    {
+        Quaternion rotation = Quaternion.Euler(0f, 90f * (stairsCorner + 1) % 360, 0f);
+
+        if (stairsCorner == 0)
+        {
+            int jDoors = 0;
+            for (int j = 0; j < wallCountY - 1; j++)
+            {
+                Vector3 transform = new Vector3(-(roomSize.x / 2) + 0.5f + wallSpacing * 2, 0f, 6.5f + j * 4);
+                Matrix4x4 mat = Matrix4x4.TRS(transform, rotation, Vector3.one);
+                int rand = Mathf.FloorToInt(Random.Range(0f, 3f));
+                if (j == wallCountY - 3 && jDoors == 0)
+                    rand = 0;
+                if (rand == 0)
+                {
+                    jDoors++;
+                    wallMatricesDoor1.Add(mat);
+                }
+                else if (rand == 1)
+                {
+
+                    wallMatrices1.Add(mat);
+                }
+                else if (rand == 2)
+                {
+
+                    wallMatricesBroken1.Add(mat);
+                }
+            }
+        }
+
+        if (stairsCorner == 1)
+        {
+            int jDoors = 0;
+            for (int j = 0; j < wallCountX - 1; j++)
+            {
+                Vector3 transform = new Vector3(-(roomSize.x / 2) + 6.0f + 4 * j, 0f, roomSize.y - 8);
+                Matrix4x4 mat = Matrix4x4.TRS(transform, rotation, Vector3.one);
+                int rand = Mathf.FloorToInt(Random.Range(0f, 3f));
+                if (j == wallCountY - 3 && jDoors == 0)
+                    rand = 0;
+                if (rand == 0)
+                {
+                    jDoors++;
+                    wallMatricesDoor1.Add(mat);
+                }
+                else if (rand == 1)
+                {
+
+                    wallMatrices1.Add(mat);
+                }
+                else if (rand == 2)
+                {
+
+                    wallMatricesBroken1.Add(mat);
+                }
+            }
+        }
+
+        if (stairsCorner == 2)
+        {
+            int jDoors = 0;
+            for (int j = 0; j < wallCountY - 1; j++)
+            {
+                Vector3 transform = new Vector3(roomSize.x / 2 - 0.5f - wallSpacing * 2, 0f, roomSize.y - 5.5f - 4f * j);
+                Matrix4x4 mat = Matrix4x4.TRS(transform, rotation, Vector3.one);
+                int rand = Mathf.FloorToInt(Random.Range(0f, 3f));
+                if (j == wallCountY - 3 && jDoors == 0)
+                    rand = 0;
+                if (rand == 0)
+                {
+                    jDoors++;
+                    wallMatricesDoor1.Add(mat);
+                }
+                else if (rand == 1)
+                {
+
+                    wallMatrices1.Add(mat);
+                }
+                else if (rand == 2)
+                {
+
+                    wallMatricesBroken1.Add(mat);
+                }
+            }
+        }
+
+        // Convert lists to arrays for rendering
+        wallMatrixArray1 = wallMatrices1.ToArray();
+        wallMatrixDoorArray1 = wallMatricesDoor1.ToArray();
+        wallMatrixBrokenArray1 = wallMatricesBroken1.ToArray();
+
+
+    }
+    void RenderInsideFirstRoom()
+    {
+        // Render them
+
+        if (wallMatrixArray1.Length > 0)
+        {
+            Graphics.DrawMeshInstanced(wallMesh, 0, texture, wallMatrixArray1, wallMatrixArray1.Length);
+        }
+
+        if (wallMatrixDoorArray1.Length > 0)
+        {
+            Graphics.DrawMeshInstanced(wallMeshDoor, 0, texture, wallMatrixDoorArray1, wallMatrixDoorArray1.Length);
+
+        }
+
+        if (wallMatrixBrokenArray1.Length > 0)
+        {
+            Graphics.DrawMeshInstanced(wallMeshBroken, 0, texture, wallMatrixBrokenArray1, wallMatrixBrokenArray1.Length);
+        }
+    }
     void CreateWalls()
     {
         // Initial Seed
@@ -150,11 +315,19 @@ public class PCG_Room : MonoBehaviour
         wallMatricesDoor = new List<Matrix4x4>();
         wallMatricesBroken = new List<Matrix4x4>();
 
+        // Matirces for meshes
+        wallMatrices1 = new List<Matrix4x4>();
+        wallMatricesDoor1 = new List<Matrix4x4>();
+        wallMatricesBroken1 = new List<Matrix4x4>();
+
         int roomSizeNewX = ((int)roomSize.x) / 2;
         int roomSizeNewY = ((int)roomSize.y) / 2;
 
         wallCountX = roomSizeNewX >= 2 ? roomSizeNewX / 2 : 1;
         wallCountY = roomSizeNewY >= 2 ? roomSizeNewY / 2 : 1;
+
+        createStairs();
+        FirstInsideRoom();
 
         // Define wall axes configurations
         var wallConfigs = new List<WallConfig>
@@ -189,16 +362,40 @@ public class PCG_Room : MonoBehaviour
             }
         };
 
+        int wallNumber = 0;
+
         foreach (var config in wallConfigs)
         {
             int jDoors = 0;
             for (int i = 0; i < config.Count; i++)
             {
+                if (wallNumber == stairsCorner)
+                {
+                    if (wallNumber == 0 && (i == 0 || i == 1))
+                    {
+                        continue;
+                    }
+                    else if (wallNumber == 1 && (i == wallCountY - 1 || i == wallCountY - 2))
+                    {
+                        continue;
+                    }
+                    else if (wallNumber == 2 && (i == wallCountX - 1 || i == wallCountX - 2))
+                    {
+                        continue;
+                    }
+                    else if (wallNumber == 3 && (i == 0 || i == 1))
+                    {
+                        continue;
+                    }
+
+                }
                 Vector3 wallTransform = config.StartPosition + config.Direction * (wallSpacing * i);
                 Matrix4x4 mat = Matrix4x4.TRS(wallTransform, config.Rotation, Vector3.one);
                 AssignWalls(mat, ref jDoors, i, config.Count);
             }
+            wallNumber++;
         }
+
 
         // Convert lists to arrays for rendering
         wallMatrixArray = wallMatrices.ToArray();
@@ -291,35 +488,6 @@ public class PCG_Room : MonoBehaviour
 
     #endregion
 
-    private void OnDrawGizmos()
-    {
-        // Gizmos.color = gridColor;
-
-        // // Calculate the bottom-left corner position of the grid
-        // Vector3 Left = new Vector3(-roomSize.x / 2, 0, 0.5f);
-        // Vector3 Right = new Vector3(roomSize.x / 2, 0, 0.5f);
-        // Vector3 Bottom = new Vector3(0, 0, 0.5f);
-        // Vector3 Top = new Vector3(0, 0, roomSize.y + 0.5f);
-
-        // // Draw vertical lines
-        // for (int x = 0; x <= roomSize.x; x++)
-        // {
-        //     Gizmos.DrawLine(Bottom + new Vector3(-roomSize.x / 2 + x * 1f, 0, 0), Top + new Vector3(-roomSize.x / 2 + x * 1f, 0, 0));
-        // }
-
-        // // Draw horizontal lines starting from -roomSize.x/2 to +roomSize.x
-        // for (int z = 0; z <= roomSize.y; z++)
-        // {
-        //     Gizmos.DrawLine(Left + new Vector3(0, 0, z * 1.0f), Right + new Vector3(0, 0, z * 1.0f));
-        // }
-
-        // if (floorCollider != null)
-        // {
-        //     Gizmos.color = Color.red; // Change the color to visualize it clearly
-        //     Gizmos.matrix = floorCollider.transform.localToWorldMatrix;
-        //     Gizmos.DrawWireCube(floorCollider.center, floorCollider.size);
-        // }
-    }
     #region Colliders
     // Remove all existing MeshColliders before adding new ones
     void ClearExistingChilds()
@@ -344,7 +512,7 @@ public class PCG_Room : MonoBehaviour
         for (int i = 0; i < wallMatrixDoorArray.Length; i++)
         {
             Vector3 position = wallMatrixDoorArray[i].GetColumn(3);
-            Debug.Log("Position " + position.ToString());
+            // Debug.Log("Position " + position.ToString());
             Quaternion rotation = Quaternion.LookRotation(wallMatrixDoorArray[i].GetColumn(2), wallMatrixDoorArray[i].GetColumn(1));
 
             // Create a child GameObject for each door collider
@@ -471,13 +639,13 @@ public class PCG_Room : MonoBehaviour
                     positionZ = roomSize.y / 2 + 0.5f;
                 }
 
-                GameObject fullColliderObj = new GameObject($"Full Wall Collider {j}"); 
+                GameObject fullColliderObj = new GameObject($"Full Wall Collider {j}");
                 fullColliderObj.transform.parent = fullWallColliders.transform;
                 fullColliderObj.transform.position = new Vector3(positionX, 2.0f, positionZ);
                 fullColliderObj.transform.rotation = rotation;
 
                 BoxCollider fullCollider = fullColliderObj.AddComponent<BoxCollider>();
-                fullCollider.size = (i%2==1) ? new Vector3(wallCountX * 4.0f, 4.0f, 1.0f) : new Vector3(wallCountY * 4.0f, 4.0f, 1.0f);
+                fullCollider.size = (i % 2 == 1) ? new Vector3(wallCountX * 4.0f, 4.0f, 1.0f) : new Vector3(wallCountY * 4.0f, 4.0f, 1.0f);
 
                 j++;
             }
@@ -527,30 +695,4 @@ public class PCG_Room : MonoBehaviour
 
     }
     #endregion
-
-    #region Cell Class
-    enum CellTag { Inside, Outside };
-    enum CellSideTag { North, South, East, West };
-    public class Cell
-    {
-        Vector3 postion;
-        CellTag zone;
-        CellSideTag side;
-
-        Cell(Vector3 _position, CellTag _zone, CellSideTag _side)
-        {
-            postion = _position;
-            zone = _zone;
-            side = _side;
-        }
-
-        public override string ToString()
-        {
-            return postion + " " + zone + " " + side;
-        }
-
-    };
-
-    #endregion
-
 }

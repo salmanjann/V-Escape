@@ -73,8 +73,8 @@ public class Main_Menu : MonoBehaviour
 
     public void playbtnclicked()
     {
-        //SceneManager.LoadScene(1);
-        Debug.Log("Play");
+        SceneManager.LoadScene("Labyrinth");
+        // Debug.Log("Play");
     }
 
     public void exitbtnclicked()

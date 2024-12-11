@@ -4975,7 +4975,7 @@ GameObject:
   - component: {fileID: -5165648720445141885}
   - component: {fileID: 2983015389852251103}
   - component: {fileID: 1555354398829491692}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Artifact2
   m_TagString: Artifact
   m_Icon: {fileID: 0}

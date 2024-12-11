@@ -59,6 +59,7 @@ public class PCG_Labyrinth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        UnityEngine.Random.InitState(seed);
         prevRandomTravel = RandomTravel;
         EnableInstancingForMaterial(stone);
         AssignLabyrinthSize();
@@ -72,18 +73,19 @@ public class PCG_Labyrinth : MonoBehaviour
     }
     private void spawnArtifact()
     {
-        UnityEngine.Random.InitState(seed);
+        // UnityEngine.Random.InitState(seed);
         GameObject artifact = GameObject.Find("Artifact");
         if(artifact != null)
         {
             Destroy(artifact);
         }
         artifact = Instantiate(Artifact);
-        artifact.transform.position = new Vector3(UnityEngine.Random.Range(0,Grid.x-1 >= 1 ? Grid.x : 1) * labyrinthLengthSize.x * wallSpacing,0f,UnityEngine.Random.Range(0,Grid.y-1 >= 1 ? Grid.y : 1) * labyrinthLengthSize.y * wallSpacing);
+        artifact.name = "Artifact";
+        artifact.transform.position = new Vector3(UnityEngine.Random.Range(0,Grid.x-1 >= 1 ? Grid.x : 1) * labyrinthLengthSize.x * wallSpacing,2f,UnityEngine.Random.Range(0,Grid.y-1 >= 1 ? Grid.y : 1) * labyrinthLengthSize.y * wallSpacing);
     }
     private void spawnTeleporters()
     {
-        UnityEngine.Random.InitState(seed);
+        // UnityEngine.Random.InitState(seed);
         // delete old game objects
         if(true)
         {
@@ -147,6 +149,7 @@ public class PCG_Labyrinth : MonoBehaviour
             CreateWalls();
             CreateFloor();
             spawnTeleporters();
+            spawnArtifact();
         }
         RenderWalls();
         RenderFloor();

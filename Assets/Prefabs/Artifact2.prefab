@@ -4975,6 +4975,7 @@ GameObject:
   - component: {fileID: -5165648720445141885}
   - component: {fileID: 2983015389852251103}
   - component: {fileID: 1555354398829491692}
+  - component: {fileID: 1346748143618786703}
   m_Layer: 6
   m_Name: Artifact2
   m_TagString: Artifact
@@ -5059,3 +5060,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1346748143618786703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7816829225084632193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4381aa382f39ab48b296d51f1807d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -67,9 +67,10 @@ public class PCG_Labyrinth : MonoBehaviour
         prevSeed = seed;
         texture.enableInstancing = true;
         CreateWalls();
-        // Now Spawn The Objects
+        CreateFloor();
         spawnTeleporters();
         spawnArtifact();
+        MarkStaticObjects();
     }
     private void spawnArtifact()
     {
@@ -432,7 +433,7 @@ public class PCG_Labyrinth : MonoBehaviour
         for (int i = 0; i < wallMatrixArray.Length; i++)
         {
             Vector3 position = wallMatrixArray[i].GetColumn(3);
-            Debug.Log("Position " + position.ToString());
+            // Debug.Log("Position " + position.ToString());
             Quaternion rotation = Quaternion.LookRotation(wallMatrixArray[i].GetColumn(2), wallMatrixArray[i].GetColumn(1));
 
             // Create a child GameObject for each wall collider
@@ -563,4 +564,13 @@ public class PCG_Labyrinth : MonoBehaviour
     }
     #endregion
 
+    void MarkStaticObjects()
+    {
+        // Mark wall and floor objects as static
+        GameObject[] staticObjects = GameObject.FindGameObjectsWithTag("Static");
+        foreach (GameObject obj in staticObjects)
+        {
+            obj.isStatic = true;
+        }
+    }
 }

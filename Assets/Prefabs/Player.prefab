@@ -294,9 +294,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9998632beddcd90438f9cd225e142e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WinPanel: {fileID: 0}
   playerCam: {fileID: 0}
   collectablePos: {fileID: 0}
   layername:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   objectDistance: 2

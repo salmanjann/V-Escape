@@ -8,6 +8,7 @@ TagManager:
   - Artifact
   - Wall
   - Floor
+  - Static
   layers:
   - Default
   - TransparentFX

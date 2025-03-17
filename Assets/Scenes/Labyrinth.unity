@@ -390,7 +390,7 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
+    m_Quality: 2
     m_FrameInfluence: 0.1
     m_JitterScale: 1
     m_MipBias: 0
@@ -436,7 +436,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 100
+  far clip plane: 10000
   field of view: 60
   orthographic: 0
   orthographic size: 10
@@ -555,6 +555,10 @@ MonoBehaviour:
   wall_prefab: {fileID: 1967679923526416080, guid: 0030989e7cb5974d597bfc89388d42ec,
     type: 3}
   ground_prefab: {fileID: 8399445122218750834, guid: 9acb5266fba1889fd9109a4a157dad5f,
+    type: 3}
+  artifact_prefab: {fileID: 7816829225084632193, guid: 0ce100cbb5d054e479d1899744f0e896,
+    type: 3}
+  teleporter_prefab: {fileID: 1023155946846360499, guid: 586e86b4728358f449631f996b120f4c,
     type: 3}
   seed: 0
   random_seed: 1

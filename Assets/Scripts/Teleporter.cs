@@ -5,24 +5,12 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
-    [Header("Paired Portal")]
+    [Header("Paired Teleporter")]
     public GameObject Pair;
-    [Header("Custom Material")]
-    public Material material;
-    
-    [Header("3d Objects")]
-    public GameObject[] Objects;
     // Start is called before the first frame update
     void Start()
     {
-        if(material != null)
-        {
-            for(int i = 0; i < Objects.Length; i++)
-            {
-                var renderer = Objects[i].GetComponent<Renderer>();
-                renderer.material = material;
-            }
-        }
+
     }
 
     // Update is called once per frame

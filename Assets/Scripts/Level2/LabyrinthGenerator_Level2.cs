@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,23 +9,25 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
 {
     public GameObject wall_prefab;
     public GameObject ground_prefab;
+    public GameObject artifact_prefab;
+    public GameObject teleporter_prefab;
     public int seed;
     public bool random_seed;
     public Vector2Int size;
     public int RandomTravel;
-    private List<GameObject> walls = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
         seed_manage();
         wallplacer();
         groundplacer();
+        objectsplacer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void seed_manage()
@@ -48,8 +51,14 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
     }
 
     private void wallplacer()
-    {
+    {    
+        List<GameObject> walls = new List<GameObject>();
+        
+        GameObject parent = new GameObject("Walls");
+        parent.transform.parent = this.transform;
+
         List<level2wall> components = new List<level2wall>();
+
         for(int i = 0; i < size.x; i++)
         {
             for(int j = 0; j <= size.y; j++)
@@ -65,6 +74,7 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
                 // wall.isStatic = true;
                 walls.Add(wall);
                 components.Add(component);
+                wall.transform.parent = parent.transform;
             }
         }
         for(int i = 0; i < size.y; i++)
@@ -81,6 +91,7 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
                 // wall.isStatic = true;
                 walls.Add(wall);
                 components.Add(component);
+                wall.transform.parent = parent.transform;
             }
         }
 
@@ -174,13 +185,65 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
 
     private void groundplacer()
     {
+        GameObject parent = new GameObject("Ground");
+        parent.transform.parent = this.transform;
         for(int i = 0;i < size.x; i++)
         {
             for(int j = 0; j < size.y; j++)
             {
                 GameObject ground = Instantiate(ground_prefab);
                 ground.transform.position = new Vector3(1.9f + 4 * i, 0f, 4f * j);
+                ground.transform.parent = parent.transform;
             }
         }
     }
+
+    private void objectsplacer()
+    {
+        List<Vector2Int> slots = new List<Vector2Int>();
+        for(int i = 0; i < size.x; i++)
+        {
+            for(int j = 0; j < size.x; j++)
+            {
+                slots.Add(new Vector2Int(i,j));
+            }
+        }
+        slots.RemoveAt(0); // remove the 0,0 index as it is unavailable
+        Vector2Int position;
+        do
+        {
+            position = new Vector2Int((int)UnityEngine.Random.Range(0,size.x - 0.1f),(int)UnityEngine.Random.Range(0,size.y - 0.1f));
+        } while(Vector2Int.Distance(position,Vector2Int.zero) >= math.sqrt(math.pow(size.x,2)+math.pow(size.y,2))/3);
+        slots.Remove(position);
+        GameObject artifact = Instantiate(artifact_prefab);
+        artifact.name = "Artifact";
+        artifact.transform.parent = this.transform;
+        artifact.transform.position = new Vector3(1.5f + 3 * position.x, 1f, 0 + 3 * position.y);
+
+        int teleporters = size.x + size.y / (2 * 5);
+        GameObject parent = new GameObject("Teleporters");
+        parent.transform.parent = this.transform;
+        for(int i = 0; i < teleporters; i++)
+        {
+            GameObject TeleporterA = Instantiate(teleporter_prefab);
+            GameObject TeleporterB = Instantiate(teleporter_prefab);
+            TeleporterA.transform.parent = parent.transform;
+            TeleporterB.transform.parent = parent.transform;
+            Vector2Int positionA, positionB;
+            do
+            {
+                positionA = new Vector2Int((int)UnityEngine.Random.Range(0,size.x - 0.1f),(int)UnityEngine.Random.Range(0,size.y - 0.1f));
+                positionB = new Vector2Int((int)UnityEngine.Random.Range(0,size.x - 0.1f),(int)UnityEngine.Random.Range(0,size.y - 0.1f));
+            } while(!slots.Contains(positionA) || !slots.Contains(positionB) || positionA == positionB);
+            slots.Remove(positionA);
+            slots.Remove(positionB);
+            TeleporterA.transform.position = new Vector3(1.5f + 3 * positionA.x, 0.0126f, 0 + 3 * positionA.y);
+            TeleporterB.transform.position = new Vector3(1.5f + 3 * positionB.x, 0.0126f, 0 + 3 * positionB.y);
+            Teleporter componentA = TeleporterA.GetComponent<Teleporter>();
+            Teleporter componentB = TeleporterB.GetComponent<Teleporter>();
+            componentA.Pair = TeleporterB;
+            componentB.Pair = TeleporterA;
+        }
+    }
+
    }

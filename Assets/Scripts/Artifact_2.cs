@@ -13,13 +13,12 @@ public class Artifact_2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // rotate();
+        rotate();
     }
     private void rotate()
     {
-        float rotation_speed = 1f;
+        float rotation_speed = 50f;
         transform.Rotate(new Vector3(rotation_speed/4 * Time.deltaTime, rotation_speed/2 * Time.deltaTime, rotation_speed * Time.deltaTime));
-        
     }
     private void OnTriggerEnter(Collider obj)
     {

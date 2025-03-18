@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PickandDrop : MonoBehaviour
 {
-    public GameObject WinPanel;
     public Transform playerCam;
     public Transform collectablePos;
     public LayerMask layername;
@@ -31,11 +29,6 @@ public class PickandDrop : MonoBehaviour
                     if (raycasthit.transform.TryGetComponent(out collectAbleObjects))
                     {
                         collectAbleObjects.Grab(collectablePos);
-                        if(raycasthit.collider.CompareTag("Artifact"))
-                        {
-                            WinPanel.SetActive(true);
-                            Invoke("LevelProgressToRoom",3f);
-                        }
                     }
                 }
             }
@@ -45,9 +38,5 @@ public class PickandDrop : MonoBehaviour
                 collectAbleObjects = null;
             }       
         }
-    }
-    private void LevelProgressToRoom()
-    {
-        SceneManager.LoadScene("Practice_PCG");
     }
 }

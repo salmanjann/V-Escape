@@ -150,7 +150,7 @@ MonoBehaviour:
     m_Bits: 64
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   health: 120
   searchlight: {fileID: 5022618715533478345}
   personallight: {fileID: 6580259106142278933}

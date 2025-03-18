@@ -8,11 +8,13 @@ TagManager:
   - Artifact
   - Wall
   - Floor
+  - Enemy
+  - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - CollectAble

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4189364994435198940}
   - component: {fileID: 4714374408359108668}
   - component: {fileID: 4328919474714635832}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GroundLevel2
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -165,15 +165,35 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7159757469449272155, guid: a4c20c156c2e507158fab7d367e01141,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6362857520246095766, guid: a4c20c156c2e507158fab7d367e01141,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -2388586582956777469, guid: a4c20c156c2e507158fab7d367e01141,
         type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 332118839965939491, guid: a4c20c156c2e507158fab7d367e01141,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a4c20c156c2e507158fab7d367e01141,
         type: 3}
       propertyPath: m_Name
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a4c20c156c2e507158fab7d367e01141,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1127433762362644664, guid: a4c20c156c2e507158fab7d367e01141,
         type: 3}
@@ -194,6 +214,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
       value: 0.71647334
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701140771250247663, guid: a4c20c156c2e507158fab7d367e01141,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8401090875494258524, guid: a4c20c156c2e507158fab7d367e01141,
         type: 3}

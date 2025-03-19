@@ -29,24 +29,24 @@ public class TerrainMesh_Generator : MonoBehaviour
         meshFilter.mesh = mesh;
         mesh.name = "Terrain";
 
-        rb.isKinematic = true;
-        rb.useGravity = false;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        collider.sharedMesh = mesh;
-        collider.convex = false;
-        
         meshRenderer = this.AddComponent<MeshRenderer>();
         
         // Assign a basic material (default Unity material)
         meshRenderer.material = material;
-
+        
         Create_shape();
         Update_Mesh();
+
+        collider.sharedMesh = mesh;
+        collider.convex = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.isKinematic = true;
+        rb.useGravity = false;
     }
 
     // Update is called once per frame
     void Update()
-    {   
+    {  
 
     }
 
@@ -97,6 +97,7 @@ public class TerrainMesh_Generator : MonoBehaviour
         mesh.triangles = triangles;
         // mesh.uv = UVs;
         mesh.RecalculateNormals();
+        mesh.RecalculateBounds();
     }
     public void OnDrawGizmos()
     {

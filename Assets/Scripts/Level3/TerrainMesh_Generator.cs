@@ -20,12 +20,13 @@ public class TerrainMesh_Generator : MonoBehaviour
         meshFilter = this.AddComponent<MeshFilter>();
         meshRenderer = this.AddComponent<MeshRenderer>();
         Create_shape();
+        Update_Mesh();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Create_shape();   
+        // Create_shape();   
     }
 
     private void Create_shape()
@@ -35,8 +36,38 @@ public class TerrainMesh_Generator : MonoBehaviour
         if(vertices == null)
             return;
         shape_created = true;
-        // int vert = 0;
 
+        triangles = new int[size.x * size.y * 6];
+        
+        int vert = 0;
+        int tris = 0;
+
+        
+        for(int x = 0; x < size.x; x++)
+        {
+            for(int z = 0; z < size.y; z++)
+            {
+                triangles[tris + 0] = vert + 0;
+                triangles[tris + 1] = vert + size.x + 1;
+                triangles[tris + 2] = vert + 1;
+                triangles[tris + 3] = vert + 1;
+                triangles[tris + 4] = vert + size.x + 1;
+                triangles[tris + 5] = vert + size.x + 2;
+                vert++;
+                tris += 6;
+            }
+            vert++;
+        }
+
+    }
+
+    private void Update_Mesh()
+    {
+        meshFilter.mesh.Clear();
+        meshFilter.mesh.vertices = vertices;
+        meshFilter.mesh.triangles = triangles;
+
+        meshFilter.mesh.RecalculateNormals();
     }
     public void OnDrawGizmos()
     {

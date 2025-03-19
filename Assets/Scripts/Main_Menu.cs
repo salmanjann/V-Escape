@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class Main_Menu : MonoBehaviour
 {
@@ -11,11 +12,9 @@ public class Main_Menu : MonoBehaviour
     public GameObject settingPanel;
     public GameObject controlPanel;
     public GameObject audioPanel;
-    /*
-    public Slider volumeSlider;
 
     public AudioSource audioSource;
-    public AudioClip background;*/
+    public Slider volumeSlider;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +24,7 @@ public class Main_Menu : MonoBehaviour
         settingPanel.SetActive(false);
         controlPanel.SetActive(false);
         audioPanel.SetActive(false);
-        /*
+
         if (PlayerPrefs.HasKey("Volume"))
         {
             PlayerPrefs.SetFloat("Volume", 1);
@@ -35,14 +34,12 @@ public class Main_Menu : MonoBehaviour
         {
             Load();
         }
-        audioSource.clip = background;
-        audioSource.Play();*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        changeVolume();
     }
 
     public void Backbtn()
@@ -88,7 +85,6 @@ public class Main_Menu : MonoBehaviour
         controlPanel.SetActive(false);
     }
 
-    /*
     public void changeVolume()
     {
         AudioListener.volume = volumeSlider.value;
@@ -105,8 +101,4 @@ public class Main_Menu : MonoBehaviour
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
     }
 
-    public void playButton()
-    {
-        audioSource.Play();
-    }*/
 }

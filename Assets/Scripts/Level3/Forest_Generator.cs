@@ -22,6 +22,7 @@ public class Forest_Generator : MonoBehaviour
         forests = new List<GameObject>();
         Create_Vertices();
         Create_All_Terrain_Objects();
+        vertices = null;
     }
 
     private void Create_Vertices()

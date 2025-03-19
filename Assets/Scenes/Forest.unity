@@ -421,6 +421,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c55db6705cca052aa8d071a1d267f192, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  material: {fileID: -2867747967464863736, guid: d9568c23821ca6245bf64abb394a6067,
+    type: 3}
   size: {x: 20, y: 20}
   objArrayCount: {x: 2, y: 2}
 --- !u!1660057539 &9223372036854775807

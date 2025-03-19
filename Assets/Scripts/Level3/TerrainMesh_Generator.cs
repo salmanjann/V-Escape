@@ -18,6 +18,8 @@ public class TerrainMesh_Generator : MonoBehaviour
     {
         shape_created = false;
         meshFilter = this.AddComponent<MeshFilter>();
+        meshFilter.mesh = new Mesh();
+        meshFilter.mesh.name = "Terrain";
         meshRenderer = this.AddComponent<MeshRenderer>();
         Create_shape();
         Update_Mesh();

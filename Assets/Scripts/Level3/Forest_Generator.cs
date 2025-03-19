@@ -67,6 +67,7 @@ public class Forest_Generator : MonoBehaviour
         }
         
         GameObject obj = new GameObject(parent.name + "_LOD0");
+        obj.transform.parent = parent.transform;
         TerrainMesh_Generator component = obj.AddComponent<TerrainMesh_Generator>();
 
         component.vertices = _vertices;

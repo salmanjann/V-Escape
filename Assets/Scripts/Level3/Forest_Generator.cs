@@ -50,9 +50,6 @@ public class Forest_Generator : MonoBehaviour
         
         int iStart = x * size.x;
         int jStart = y * size.y;
-        
-        GameObject obj = new GameObject(parent.name + "_LOD0");
-        TerrainMesh_Generator component = obj.AddComponent<TerrainMesh_Generator>();
 
         // +1 because the size defines the count of quads, so we need +1 vertices
         Vector3[] _vertices = new Vector3[(size.x + 1) * (size.y + 1)];
@@ -65,8 +62,12 @@ public class Forest_Generator : MonoBehaviour
                 _vertices[index++] = vertices[i, j];
             }
         }
+        
+        GameObject obj = new GameObject(parent.name + "_LOD0");
+        TerrainMesh_Generator component = obj.AddComponent<TerrainMesh_Generator>();
 
         component.vertices = _vertices;
+        component.size = size;
     }
 
     public void OnDrawGizmos()

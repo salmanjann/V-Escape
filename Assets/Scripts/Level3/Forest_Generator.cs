@@ -2,12 +2,14 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Forest_Generator : MonoBehaviour
 {
+    public GameObject Tree_prefab;
     public Material material;
     Vector3[,] vertices;
     public Vector2Int size;
@@ -23,6 +25,7 @@ public class Forest_Generator : MonoBehaviour
         Create_Vertices();
         Create_All_Terrain_Objects();
         vertices = null;
+        Objects_Spawner();
     }
 
     private void Create_Vertices()
@@ -75,6 +78,50 @@ public class Forest_Generator : MonoBehaviour
         component.vertices = _vertices;
         component.size = size;
         component.material = material;
+    }
+
+    private void Objects_Spawner()
+    {
+        Spawn_Trees();
+    }
+
+    private void Spawn_Trees()
+    {
+        GameObject parent = new GameObject("Trees");
+        List<GameObject> trees = new List<GameObject>();
+        int number_of_trees = (terrain_size.x * terrain_size.y) / (10 * 10);
+        for(int i = 0; i < number_of_trees; i++)
+        {
+            GameObject obj = Instantiate(Tree_prefab);
+            obj.transform.Rotate(0f, UnityEngine.Random.Range(0f, 359.9f), 0f);
+            float size = UnityEngine.Random.Range(0.4f,1f);
+            obj.transform.localScale = new Vector3(size, size, size);
+            obj.transform.parent = parent.transform;
+            
+            do
+            {
+                Vector3 pos = Vector3.zero;
+                pos.x = UnityEngine.Random.Range(0 + 5f, terrain_size.x-5f);
+                pos.z = UnityEngine.Random.Range(0 + 5f, terrain_size.y-5f);
+                obj.transform.position = pos;
+            }while(!is_Far_Enough(obj,trees, 2.5f));
+        }
+    }
+
+    private bool is_Far_Enough(GameObject obj, List<GameObject> objs, float min_distance)
+    {
+        if(obj==null)
+            return true;
+        if(objs.Count==0)
+            return true;
+
+        foreach(GameObject temp in objs)
+        {
+            if(Vector3.Distance(obj.transform.position, temp.transform.position) <= min_distance)
+                return false;
+        }
+
+        return true;
     }
 
     public void OnDrawGizmos()

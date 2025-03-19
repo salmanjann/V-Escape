@@ -6,12 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main_Menu.unity
-    guid: cf3064d9f62319d48bd2cd893166d4ca
-  - enabled: 1
     path: Assets/Scenes/Labyrinth.unity
-    guid: 8019eb55f2636180580aa9e0838ab8ec
-  - enabled: 1
-    path: Assets/Scenes/Practice_PCG.unity
-    guid: 5017be84e9ea28b47a004a61f21ca20a
+    guid: 360bf2104d54fc8909148992b54ed7ba
   m_configObjects: {}

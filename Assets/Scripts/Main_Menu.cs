@@ -7,10 +7,12 @@ using UnityEngine.UIElements;
 public class Main_Menu : MonoBehaviour
 {
     public GameObject mainMenu;
-    public GameObject controls;
-    public GameObject settings;
-
-    /*public Slider volumeSlider;
+    public GameObject creditPanel;
+    public GameObject settingPanel;
+    public GameObject controlPanel;
+    public GameObject audioPanel;
+    /*
+    public Slider volumeSlider;
 
     public AudioSource audioSource;
     public AudioClip background;*/
@@ -19,9 +21,11 @@ public class Main_Menu : MonoBehaviour
     void Start()
     {
         mainMenu.SetActive(true);
-        settings.SetActive(false);
-        controls.SetActive(false);
-/*
+        creditPanel.SetActive(false);
+        settingPanel.SetActive(false);
+        controlPanel.SetActive(false);
+        audioPanel.SetActive(false);
+        /*
         if (PlayerPrefs.HasKey("Volume"))
         {
             PlayerPrefs.SetFloat("Volume", 1);
@@ -41,29 +45,49 @@ public class Main_Menu : MonoBehaviour
         
     }
 
-    public void settingbtn()
+    public void Backbtn()
     {
-        settings.SetActive(true);
-        controls.SetActive(false);
+        settingPanel.SetActive(false);
+        creditPanel.SetActive(false);
     }
 
-    public void controlsbtn()
+    public void newGamebtnclicked()
     {
-        controls.SetActive(true);
-        settings.SetActive(false);
+
     }
 
-    public void backtbn()
+    public void Credits()
     {
-        settings.SetActive(false);
-        controls.SetActive(false);
+        creditPanel.SetActive(true);
+        settingPanel.SetActive(false);
+        controlPanel.SetActive(false);
+        audioPanel.SetActive(false);
     }
 
-    public void playtbtnclicked()
+    public void Settings()
     {
-        //SceneManager.LoadScene(1);
-        Debug.Log("Play");
+        settingPanel.SetActive(true);
+        audioPanel.SetActive(true);
+        creditPanel.SetActive(false);
     }
+
+    public void exitGame()
+    {
+        Application.Quit();
+    }
+
+    public void Controls()
+    {
+        controlPanel.SetActive(true);
+        audioPanel.SetActive(false);
+    }
+
+    public void Audios()
+    {
+        audioPanel.SetActive(true);
+        controlPanel.SetActive(false);
+    }
+
     /*
     public void changeVolume()
     {

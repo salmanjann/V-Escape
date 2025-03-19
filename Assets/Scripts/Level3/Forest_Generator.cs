@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class Forest_Generator : MonoBehaviour
 {
+    public Material material;
     Vector3[,] vertices;
     public Vector2Int size;
     public Vector2Int objArrayCount;
@@ -72,6 +73,7 @@ public class Forest_Generator : MonoBehaviour
 
         component.vertices = _vertices;
         component.size = size;
+        component.material = material;
     }
 
     public void OnDrawGizmos()

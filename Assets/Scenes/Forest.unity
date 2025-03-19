@@ -423,7 +423,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: d01f5f859308ff769bb3075dac0f0c67, type: 2}
   size: {x: 10, y: 10}
-  objArrayCount: {x: 50, y: 50}
+  objArrayCount: {x: 2, y: 2}
 --- !u!1001 &1580046407
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -435,6 +435,11 @@ PrefabInstance:
     - target: {fileID: 1578280056225003630, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
         type: 3}
       propertyPath: layername.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547066676186516416, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
+        type: 3}
+      propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8227154356199303457, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
@@ -450,7 +455,7 @@ PrefabInstance:
     - target: {fileID: 8379832487371872240, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8379832487371872240, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
         type: 3}

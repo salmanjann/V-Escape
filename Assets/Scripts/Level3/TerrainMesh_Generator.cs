@@ -31,6 +31,7 @@ public class TerrainMesh_Generator : MonoBehaviour
 
         rb.isKinematic = true;
         rb.useGravity = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         collider.sharedMesh = mesh;
         collider.convex = false;
         

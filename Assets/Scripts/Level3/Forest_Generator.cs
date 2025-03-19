@@ -1,6 +1,8 @@
+using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -27,7 +29,8 @@ public class Forest_Generator : MonoBehaviour
         {
             for(int j = 0; j < terrain_size.y; j++)
             {
-                vertices[i,j] = new Vector3(i,0,j);
+                float y = Mathf.PerlinNoise(i * 0.3f,j * 0.3f);
+                vertices[i,j] = new Vector3(i,y,j);
             }
         }
     }

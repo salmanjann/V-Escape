@@ -11,6 +11,7 @@ public class Forest_Generator : MonoBehaviour
 {
     public List<GameObject> Rocks_prefabs;
     public GameObject Tree_prefab;
+    public GameObject Small_Bush_Prefab;
     public Material material;
     Vector3[,] vertices;
     public Vector2Int size;
@@ -87,13 +88,14 @@ public class Forest_Generator : MonoBehaviour
         spawned = new List<GameObject>();
         Spawn_Trees();
         Spawn_Rocks();
+        Spawn_Bushes();
     }
 
     private void Spawn_Trees()
     {
         GameObject parent = new GameObject("Trees");
-        int number_of_trees = (terrain_size.x * terrain_size.y) / (7 * 7);
-        for(int i = 0; i < number_of_trees; i++)
+        int number_of_objects = (terrain_size.x * terrain_size.y) / (7 * 7);
+        for(int i = 0; i < number_of_objects; i++)
         {
             GameObject obj = Instantiate(Tree_prefab);
             obj.transform.Rotate(0f, UnityEngine.Random.Range(0f, 359.9f), 0f);
@@ -121,8 +123,8 @@ public class Forest_Generator : MonoBehaviour
     private void Spawn_Rocks()
     {
         GameObject parent = new GameObject("Rocks");
-        int number_of_trees = (terrain_size.x * terrain_size.y) / (30 * 30);
-        for(int i = 0; i < number_of_trees; i++)
+        int number_of_objects = (terrain_size.x * terrain_size.y) / (30 * 30);
+        for(int i = 0; i < number_of_objects; i++)
         {
             int choice = (int)UnityEngine.Random.Range(0,Rocks_prefabs.Count - 0.1f);
             GameObject obj = Instantiate(Rocks_prefabs[choice]);
@@ -145,6 +147,35 @@ public class Forest_Generator : MonoBehaviour
                 obj.transform.position = pos;
                 tries++;
             }while(!is_Far_Enough(obj,spawned, 5.5f * size));
+            spawned.Add(obj);
+        }
+    }
+
+    private void Spawn_Bushes()
+    {
+        GameObject parent = new GameObject("Bushes");
+        int number_of_objects = (terrain_size.x * terrain_size.y) / (2 * 2);
+        for(int i = 0; i < number_of_objects; i++)
+        {
+            GameObject obj = Instantiate(Small_Bush_Prefab);
+            obj.transform.Rotate(0f, UnityEngine.Random.Range(0f, 359.9f), 0f);
+            float size = UnityEngine.Random.Range(0.2f,5f);
+            obj.transform.localScale = new Vector3(size, size, size);
+            obj.transform.parent = parent.transform;
+            int tries = 0;
+            do
+            {
+                if(tries > 100)
+                {
+                    Destroy(obj);
+                    break;
+                }
+                Vector3 pos = Vector3.zero;
+                pos.x = UnityEngine.Random.Range(0 + 5f, terrain_size.x-5f);
+                pos.y = 1f;
+                pos.z = UnityEngine.Random.Range(0 + 5f, terrain_size.y-5f);
+                obj.transform.position = pos;
+            }while(!is_Far_Enough(obj,spawned, 0.5f * size));
             spawned.Add(obj);
         }
     }

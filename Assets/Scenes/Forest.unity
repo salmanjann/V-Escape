@@ -426,6 +426,8 @@ MonoBehaviour:
   - {fileID: 1958824928391388201, guid: d141929568316cca2a56bfe73f01dfdc, type: 3}
   Tree_prefab: {fileID: 2525931152592706782, guid: 91d230ec6dedb9b8d9bfbbfe08dc45e2,
     type: 3}
+  Small_Bush_Prefab: {fileID: 840830976289310400, guid: ab1fa5d5712f4a4f59f09f778962dd2f,
+    type: 3}
   material: {fileID: 2100000, guid: d01f5f859308ff769bb3075dac0f0c67, type: 2}
   size: {x: 10, y: 10}
   objArrayCount: {x: 8, y: 8}

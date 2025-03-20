@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class Forest_Generator : MonoBehaviour
 {
+    public List<GameObject> Rocks_prefabs;
     public GameObject Tree_prefab;
     public Material material;
     Vector3[,] vertices;
@@ -16,6 +17,7 @@ public class Forest_Generator : MonoBehaviour
     public Vector2Int objArrayCount;
     private Vector2Int terrain_size;
     private List<GameObject> forests;
+    List<GameObject> spawned;
     // Start is called before the first frame update
     void Start()
     {
@@ -82,14 +84,15 @@ public class Forest_Generator : MonoBehaviour
 
     private void Objects_Spawner()
     {
+        spawned = new List<GameObject>();
         Spawn_Trees();
+        Spawn_Rocks();
     }
 
     private void Spawn_Trees()
     {
         GameObject parent = new GameObject("Trees");
-        List<GameObject> trees = new List<GameObject>();
-        int number_of_trees = (terrain_size.x * terrain_size.y) / (10 * 10);
+        int number_of_trees = (terrain_size.x * terrain_size.y) / (7 * 7);
         for(int i = 0; i < number_of_trees; i++)
         {
             GameObject obj = Instantiate(Tree_prefab);
@@ -97,14 +100,52 @@ public class Forest_Generator : MonoBehaviour
             float size = UnityEngine.Random.Range(0.4f,1f);
             obj.transform.localScale = new Vector3(size, size, size);
             obj.transform.parent = parent.transform;
-            
+            int tries = 0;
             do
             {
+                if(tries > 100)
+                {
+                    Destroy(obj);
+                    break;
+                }
                 Vector3 pos = Vector3.zero;
                 pos.x = UnityEngine.Random.Range(0 + 5f, terrain_size.x-5f);
+                pos.y = 1f;
                 pos.z = UnityEngine.Random.Range(0 + 5f, terrain_size.y-5f);
                 obj.transform.position = pos;
-            }while(!is_Far_Enough(obj,trees, 2.5f));
+            }while(!is_Far_Enough(obj,spawned, 2.5f * size));
+            spawned.Add(obj);
+        }
+    }
+
+    private void Spawn_Rocks()
+    {
+        GameObject parent = new GameObject("Rocks");
+        int number_of_trees = (terrain_size.x * terrain_size.y) / (30 * 30);
+        for(int i = 0; i < number_of_trees; i++)
+        {
+            int choice = (int)UnityEngine.Random.Range(0,Rocks_prefabs.Count - 0.1f);
+            GameObject obj = Instantiate(Rocks_prefabs[choice]);
+            obj.transform.Rotate(0f, UnityEngine.Random.Range(0f, 359.9f), 0f);
+            float size = UnityEngine.Random.Range(0.05f,1f);
+            obj.transform.localScale = new Vector3(size, size, size);
+            obj.transform.parent = parent.transform;
+            int tries = 0;
+            do
+            {
+                if(tries > 5)
+                {
+                    Destroy(obj);
+                    break;
+                }
+                Vector3 pos = Vector3.zero;
+                pos.x = UnityEngine.Random.Range(0 + 5f, terrain_size.x-5f);
+                pos.y = 1f;
+                pos.z = UnityEngine.Random.Range(0 + 5f, terrain_size.y-5f);
+                obj.transform.position = pos;
+                tries++;
+            }while(!is_Far_Enough(obj,spawned, 5.5f * size));
+            spawned.Add(obj);
         }
     }
 

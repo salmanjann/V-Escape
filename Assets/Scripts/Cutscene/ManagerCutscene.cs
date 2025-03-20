@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class ManagerCutscene : MonoBehaviour
 {
+    public Animator loadin_Animator;
+    public RectTransform loadpannel;
     protected int scene;
     // private int previous_scene;
     public int scenesCount;
@@ -43,7 +45,7 @@ public class ManagerCutscene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.Space))
         {
             nextpage();
         }
@@ -51,6 +53,15 @@ public class ManagerCutscene : MonoBehaviour
         {
             previouspage();
         }
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            loadin_Animator.SetTrigger("SlideIn");
+            Invoke("NextScene",1f);
+        }
+    }
+    protected virtual void NextScene()
+    {
+
     }
     protected void nextpage()
     {

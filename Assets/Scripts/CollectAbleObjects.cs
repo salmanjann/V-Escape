@@ -1,0 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CollectAbleObjects : MonoBehaviour
+{
+    public Rigidbody objectRB;  
+    private Transform grabPos;
+
+    private void Awake()
+    {
+        objectRB = GetComponent<Rigidbody>();
+    }
+
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    private void FixedUpdate()
+    {
+        if (grabPos != null)
+        {
+            float lerpSpeed = 10f;
+            Vector3 newPosition = Vector3.Lerp(transform.position,  grabPos.position, Time.deltaTime * lerpSpeed);
+            objectRB.MovePosition(newPosition);
+        }
+    }
+
+    public void Grab(Transform collectablePos)
+    {
+        this.grabPos = collectablePos;
+        objectRB.useGravity = false;
+        objectRB.isKinematic = true;
+    }
+
+    public void Drop()
+    {
+        this.grabPos = null;
+        objectRB.useGravity = true;
+        objectRB.isKinematic = false;
+    }
+}

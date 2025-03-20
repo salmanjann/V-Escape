@@ -18,12 +18,15 @@ public class Main_Menu : MonoBehaviour
     public AudioSource audioSource;
     public Slider volumeSlider;
 
-    public Text musicON;
-    public Text musicOFF;
+    public Text music;
     public bool isMuted;
 
     public Text AudioBtn;
     public Text ControlBtn;
+    public Text SettingBtn;
+    public Text CreditBtn;
+    public Text newGameBtn;
+    public Text exitGameBtn;
 
     // Start is called before the first frame update
     void Start()
@@ -67,10 +70,16 @@ public class Main_Menu : MonoBehaviour
     {
         settingPanel.SetActive(false);
         creditPanel.SetActive(false);
+        CreditBtn.color = Color.white;
+        SettingBtn.color = Color.white;
     }
 
     public void newGamebtnclicked()
     {
+        newGameBtn.color = Color.red;
+        CreditBtn.color = Color.white;
+        SettingBtn.color = Color.white;
+        exitGameBtn.color = Color.white;
         loadin_Animator.SetTrigger("SlideIn");
         Invoke("startLoadingIntro",1f);
     }
@@ -103,6 +112,10 @@ public class Main_Menu : MonoBehaviour
         settingPanel.SetActive(false);
         controlPanel.SetActive(false);
         audioPanel.SetActive(false);
+        CreditBtn.color = Color.red;
+        SettingBtn.color = Color.white;
+        newGameBtn.color = Color.white;
+        exitGameBtn.color = Color.white;
     }
 
     public void Settings()
@@ -110,9 +123,22 @@ public class Main_Menu : MonoBehaviour
         settingPanel.SetActive(true);
         audioPanel.SetActive(true);
         creditPanel.SetActive(false);
+        SettingBtn.color = Color.red;
+        CreditBtn.color = Color.white;
+        newGameBtn.color = Color.white;
+        exitGameBtn.color = Color.white;
     }
 
     public void exitGame()
+    {
+        exitGameBtn.color = Color.red;
+        newGameBtn.color = Color.white;
+        CreditBtn.color = Color.white;
+        SettingBtn.color = Color.white;
+        Invoke("Quit", 1f);
+    }
+
+    public void Quit()
     {
         Application.Quit();
     }
@@ -169,13 +195,13 @@ public class Main_Menu : MonoBehaviour
     {
         if(isMuted == false)
         {
-            musicON.enabled = true;
-            musicOFF.enabled = false;
+            music.text = "ON";
+            music.color = Color.red;
         }
         else
         {
-            musicON.enabled = false;
-            musicOFF.enabled = true;
+            music.text = "OFF";
+            music.color = Color.white;
         }
     }
 

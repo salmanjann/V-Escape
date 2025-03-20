@@ -19,6 +19,9 @@ public class Proc_Gen : MonoBehaviour
     [SerializeField] private GameObject stairsPrefab;
     [SerializeField] private GameObject trapDoorPrefab;
     [SerializeField] private GameObject keyRingPrefab;
+    [SerializeField] private GameObject artifact;
+    [SerializeField] private GameObject battery;
+    [SerializeField] private Proc_Gen_UI procGenUI;
 
     private int seed;
     [SerializeField, Range(3, 5)] private int nFloors;
@@ -37,6 +40,8 @@ public class Proc_Gen : MonoBehaviour
         wallPrefabs[0] = doorPrefabs;
         wallPrefabs[1] = normalWallPrefabs;
         wallPrefabs[2] = windowedWallPrefabs;
+        seed = (int)UnityEngine.Random.Range(0, math.pow(2, 30));
+        UnityEngine.Random.InitState(seed);
         nFloors = UnityEngine.Random.Range(3, 6);
         prevSeed = seed;
         prevNFloors = nFloors;
@@ -45,11 +50,12 @@ public class Proc_Gen : MonoBehaviour
 
     void Start()
     {
-        seed =(int) UnityEngine.Random.Range(0,math.pow(2,30));
         player.GetComponent<Rigidbody>().position = new Vector3(12, (nFloors - 1) * 4 + 0.55f, -34f);
 
         currentFloor = (int)player.GetComponent<Rigidbody>().position.y / 4 + 1;
-        Debug.Log("Current Floor " + currentFloor.ToString());
+
+        procGenUI.UpdateCurrentFloor(currentFloor);
+        // Debug.Log("Current Floor " + currentFloor.ToString());
         currentY = player.GetComponent<Rigidbody>().position.y;
         Generate();
     }
@@ -68,12 +74,20 @@ public class Proc_Gen : MonoBehaviour
         {
             currentY = player.GetComponent<Rigidbody>().position.y;
             currentFloor = (int)player.GetComponent<Rigidbody>().position.y / 4 + 1;
-            Debug.Log("Current Floor " + currentFloor.ToString());
+            procGenUI.UpdateCurrentFloor(currentFloor);
+            procGenUI.UpdateRemainingKeys(keyRings[currentFloor - 1]);
+            if (currentFloor == 1)
+            {
+                procGenUI.UpdateKeysText("Collect Artifact");
+            }
+
+            // Debug.Log("Current Floor " + currentFloor.ToString());
         }
     }
     public void CollectKey(int _currentFloor)
     {
         keyRings[_currentFloor]--;
+        procGenUI.UpdateRemainingKeys(keyRings[_currentFloor]);
         // Debug.Log("Remaing keys " + keyRings[_currentFloor].ToString());
         if (keyRings[_currentFloor] == 0)
         {
@@ -131,7 +145,6 @@ public class Proc_Gen : MonoBehaviour
     }
     void Generate()
     {
-        UnityEngine.Random.InitState(seed);
         DestroyAllChildren(this.transform);
 
         int pWidth = 15;
@@ -167,6 +180,7 @@ public class Proc_Gen : MonoBehaviour
                 {
                     position = new Vector3(+27f, 4 * floorNumber, -31.6f);
                 }
+                // Debug.Log("Spawning on floor " + floor.ToString());
                 SpawnPrefab(trapDoorPrefab, position, Quaternion.identity, floors[floor].baseRoom.room.transform, "Trap_Door");
             }
 
@@ -177,13 +191,13 @@ public class Proc_Gen : MonoBehaviour
                 {
                     SpawnPrefab(floorTilePrefab, floors[floor].baseRoom.ground[i, j].position, Quaternion.identity, floors[floor].baseRoom.floorParent, $"Ground_{i}_{j}");
 
-                    if (floors[floor].baseRoom.ground[i, j].zoneTag != Ground.Zone.Forbidden)
+                    if (floors[floor].baseRoom.ground[i, j].zoneTag == Ground.Zone.Hallway)
                     {
                         availableTiles.Add(floors[floor].baseRoom.ground[i, j]);
                     }
                 }
             }
-
+            
             DestroyTrapDoor(floor, floor % 2);
 
 
@@ -235,7 +249,7 @@ public class Proc_Gen : MonoBehaviour
                 {
                     for (int j = 0; j < floors[floor].rooms[l].ground.GetLength(1); j++)
                     {
-                        if (floors[floor].rooms[l].ground[i, j].zoneTag == Ground.Zone.Hallway)
+                        if (floors[floor].rooms[l].ground[i, j].zoneTag != Ground.Zone.Forbidden)
                         {
                             availableTiles.Add(floors[floor].rooms[l].ground[i, j]);
                         }
@@ -243,14 +257,25 @@ public class Proc_Gen : MonoBehaviour
                 }
             }
 
-            List<Ground> selectedTiles = availableTiles.OrderBy(x => UnityEngine.Random.value).Take(nKeyRings).ToList();
+            List<Ground> selectedTiles = availableTiles.OrderBy(x => UnityEngine.Random.value).Take(nKeyRings + 1).ToList();
 
-            for (int i = 0; i < nKeyRings; i++)
+            SpawnPrefab(battery, selectedTiles[selectedTiles.Count - 1].position + new Vector3(0f, 0.5f, 0f), Quaternion.identity, floors[floor].baseRoom.room.transform, "Battery");
+
+            if (floor > 0)
             {
-                SpawnKey(keyRingPrefab, selectedTiles[i].position + new Vector3(0f, 1.5f, 0f), Quaternion.identity, floors[floor].baseRoom.room.transform, $"Key_{i + 1}", floor);
+                for (int i = 0; i < nKeyRings; i++)
+                {
+                    SpawnKey(keyRingPrefab, selectedTiles[i].position + new Vector3(0f, 1.5f, 0f), Quaternion.identity, floors[floor].baseRoom.room.transform, $"Key_{i + 1}", floor);
+                }
+
+            }
+            else
+            {
+                SpawnPrefab(artifact, selectedTiles[0].position + new Vector3(0f, 1.5f, 0f), Quaternion.identity, floors[floor].baseRoom.room.transform, "Artifact");
+                keyRings[0] = 0;
             }
         }
-
+        procGenUI.UpdateRemainingKeys(keyRings[currentFloor - 1]);
     }
     void DestroyTrapDoor(int floor, int stairsCorner)
     {

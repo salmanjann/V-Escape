@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 // using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ManagerCutscene : MonoBehaviour
 {
@@ -55,13 +56,31 @@ public class ManagerCutscene : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Return))
         {
+            Debug.Log( loadpannel.position.y);
+            loadpannel.position = new Vector3(0, loadpannel.position.y, loadpannel.position.z);
             loadin_Animator.SetTrigger("SlideIn");
             Invoke("NextScene",1f);
         }
     }
-    protected virtual void NextScene()
+    protected void NextScene()
     {
-
+        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    protected virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Loading")
+        {
+            GameObject temp = GameObject.Find("EventSystemLoading");
+            if (temp != null)
+            {
+                LoadScreen loadScreen = temp.GetComponent<LoadScreen>();
+                loadScreen.previous = "Previos";
+                loadScreen.next = "New";
+                loadScreen.delay = 1;
+            }
+        }
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     protected void nextpage()
     {

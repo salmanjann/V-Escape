@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class IntroCutscene : ManagerCutscene
 {
    protected override void initialize_Text()
@@ -26,14 +27,7 @@ public class IntroCutscene : ManagerCutscene
         Text.Add("in a flurry he sees three distinct shapes the orb telling him that they are his trials... as the orb splits into 3 and merges into the shapes swiftly before vanishing completely");
         Text.Add("Lucian Feels uneasy and a sudden stroke to is heart... his body is failing him, the pain is so severe that his lungs feel filled yet gasping for air, his bones feel heavy, his muscles aching... there is a torch in his hand all of a sudden.. and as he turns it on the pain goes away... lucian knows what he must do... its no longer about dinner... its about surviving...");
    }
-
-      protected override void NextScene()
-      {
-         loadpannel.position = new Vector3(0, 0, 0);
-         SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
-         SceneManager.sceneLoaded += OnSceneLoaded;
-      }
-      void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+      protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
       {
          if (scene.name == "Loading")
          {

@@ -181,10 +181,10 @@ public class Room
         decorationParent = CreateParent("Decorations", room.transform);
         Dictionary<Ground.Zone, float> zoneChances = new Dictionary<Ground.Zone, float>
         {
-            { Ground.Zone.Inside, 0.7f },
+            { Ground.Zone.Inside, 0.5f },
             { Ground.Zone.Outside, 0.9f },
             { Ground.Zone.Forbidden, -1f },
-            { Ground.Zone.Hallway, 0.5f }
+            { Ground.Zone.Hallway, 0.4f }
         };
         List<Ground> availablefloor = new List<Ground>();
         for (int x = 0; x < ground.GetLength(0); x++)

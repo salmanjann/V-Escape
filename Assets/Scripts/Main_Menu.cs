@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class Main_Menu : MonoBehaviour
 {
+    public Animator loadin_Animator;
+    public RectTransform loadpannel;
     public GameObject mainMenu;
     public GameObject creditPanel;
     public GameObject settingPanel;
@@ -69,7 +71,30 @@ public class Main_Menu : MonoBehaviour
 
     public void newGamebtnclicked()
     {
-        SceneManager.LoadScene("PCG_House");
+        loadin_Animator.SetTrigger("SlideIn");
+        Invoke("startLoadingIntro",1f);
+    }
+
+    private void startLoadingIntro()
+    {
+        loadpannel.position = new Vector3(0, 0, 0);
+        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Loading")
+        {
+            GameObject temp = GameObject.Find("EventSystemLoading");
+            if (temp != null)
+            {
+                LoadScreen loadScreen = temp.GetComponent<LoadScreen>();
+                loadScreen.previous = "Main_Menu";
+                loadScreen.next = "Intro";
+                loadScreen.delay = 0;
+            }
+        }
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe after handling
     }
 
     public void Credits()
@@ -121,7 +146,7 @@ public class Main_Menu : MonoBehaviour
 
     public void SaveVolume()
     {
-        PlayerPrefs.SetFloat("Volume", volumeSlider.value);
+        PlayerPrefs.SetFloat("Volume",volumeSlider.value);
     }
 
     public void musicBtn()

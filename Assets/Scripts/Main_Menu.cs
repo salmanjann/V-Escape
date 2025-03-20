@@ -69,7 +69,7 @@ public class Main_Menu : MonoBehaviour
 
     public void newGamebtnclicked()
     {
-
+        SceneManager.LoadScene("PCG_House");
     }
 
     public void Credits()

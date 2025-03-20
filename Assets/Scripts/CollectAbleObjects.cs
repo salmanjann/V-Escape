@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollectAbleObjects : MonoBehaviour
 {
-    public Rigidbody objectRB;  
+    public Rigidbody objectRB;
     private Transform grabPos;
 
     private void Awake()
@@ -12,6 +12,7 @@ public class CollectAbleObjects : MonoBehaviour
         objectRB = GetComponent<Rigidbody>();
     }
 
+    // Start is called before the first frame update
     void Start()
     {
         

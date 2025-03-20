@@ -6,6 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Main_Menu.unity
+    guid: cf3064d9f62319d48bd2cd893166d4ca
+  - enabled: 1
+    path: Assets/Scenes/PCG_House.unity
+    guid: 137d1e8de406e024caeba688a4487c85
+  - enabled: 1
+    path: Assets/Scenes/Forest.unity
+    guid: a39f18dac95510785bb6b4a6d219121c
+  - enabled: 1
+    path: Assets/Scenes/Cutscenes/Intro.unity
+    guid: 6c86fbabcdd22ab65a5603a3af148d25
+  - enabled: 1
     path: Assets/Scenes/Labyrinth.unity
-    guid: 360bf2104d54fc8909148992b54ed7ba
+    guid: 43abe004cb6086d0f92555fc18ef07bc
   m_configObjects: {}

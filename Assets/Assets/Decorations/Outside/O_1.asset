@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3bcc7e50f667d14087c9407818c5b27, type: 3}
+  m_Name: O_1
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3860321438690957990, guid: 5345710131cec2c4e9d93a28f907ef57, type: 3}
+  area: {x: 1, y: 0}
+  zone: 1
+  offset: {x: 0, y: 0, z: 0}
+  chances: 0.2

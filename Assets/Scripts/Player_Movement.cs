@@ -6,8 +6,6 @@ using TMPro;
 
 public class Player_Movement : MonoBehaviour
 {
-    // PLayer Mechanics
-
     [Header("Movement")]
     public float moveSpeed;
 

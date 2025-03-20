@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-// using UnityEditor.ShaderGraph.Internal;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -210,12 +210,10 @@ public class PCG_Room : MonoBehaviour
                 }
                 else if (rand == 1)
                 {
-
                     wallMatrices1.Add(mat);
                 }
                 else if (rand == 2)
                 {
-
                     wallMatricesBroken1.Add(mat);
                 }
             }
@@ -423,7 +421,7 @@ public class PCG_Room : MonoBehaviour
     }
     #endregion
 
-    #region Pillar Genration
+    #region Pillar Generation
     void CreatePillars()
     {
         pillars = new List<Matrix4x4>();

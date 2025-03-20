@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PickandDrop : MonoBehaviour
 {
-    // Collectable Script
-
     public Transform playerCam;  // Camera used for raycasting
     public Transform collectablePos;  // Position where the item is held
     public LayerMask collectableLayer;  // Layer for collectable objects

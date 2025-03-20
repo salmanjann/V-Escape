@@ -6,6 +6,8 @@ using TMPro;
 
 public class Player_Movement : MonoBehaviour
 {
+    // Movement Variables
+
     [Header("Movement")]
     public float moveSpeed;
 
@@ -39,6 +41,8 @@ public class Player_Movement : MonoBehaviour
     public Image healthBarSprite;
     public Image flashBarSprite;
 
+    public string sceneName;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -65,12 +69,20 @@ public class Player_Movement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        updateHealthBar();
         updateFlashBar();
     }
 
     private void updateHealthBar()
     {
-        healthBarSprite.fillAmount -= 0.1f;
+        if(flashBarSprite.fillAmount == 0f)
+        {
+            healthBarSprite.fillAmount -= 0.0005f;
+        }
+        if (healthBarSprite.fillAmount == 0f)
+        {
+            Debug.Log("Died");
+        }
     }
 
     private void updateFlashBar()

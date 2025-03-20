@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PickandDrop : MonoBehaviour
 {
-    public Transform playerCam;  // Camera used for raycasting
-    public Transform collectablePos;  // Position where the item is held
-    public LayerMask collectableLayer;  // Layer for collectable objects
-    public float objectDistance;  // Max distance to pick/drop
+    public Transform playerCam;  
+    public Transform collectablePos;  
+    public LayerMask collectableLayer; 
+    public float objectDistance;
+
+    public GameObject winPanel;
 
     private CollectAbleObjects collectAbleObjects;  // Reference to currently held object
     private Player_Movement playerMov;
     void Start()
     {
+        winPanel.gameObject.SetActive(false);
         playerMov = this.GetComponent<Player_Movement>();
     }
     void Update()
@@ -41,6 +45,14 @@ public class PickandDrop : MonoBehaviour
                         return;  // Stop further execution
                     }
 
+                    if (hitObject.CompareTag("Artifact"))
+                    {
+                        Destroy(hitObject);
+                        winPanel.gameObject.SetActive(true);
+                        Invoke("nextLevel", 1f);
+                        return;  // Stop further execution
+                    }
+
                     // If the object is on the Collectable layer, pick it up
                     if (((1 << hitObject.layer) & collectableLayer) != 0)
                     {
@@ -52,5 +64,10 @@ public class PickandDrop : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void nextLevel()
+    {
+        Debug.Log("Next Level");
     }
 }

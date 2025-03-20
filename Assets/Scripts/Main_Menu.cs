@@ -1,104 +1,130 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Main_Menu : MonoBehaviour
 {
     public GameObject mainMenu;
-    public GameObject controls;
-    public GameObject settings;
+    public GameObject creditPanel;
+    public GameObject settingPanel;
+    public GameObject controlPanel;
+    public GameObject audioPanel;
 
+    public AudioSource audioSource;
     public Slider volumeSlider;
 
+    public Text musicON;
+    public Text musicOFF;
+    public bool isMuted;
 
-
-    public Text sound;
-    private bool isMuted;
+    public Text AudioBtn;
+    public Text ControlBtn;
 
     // Start is called before the first frame update
     void Start()
     {
         mainMenu.SetActive(true);
-        settings.SetActive(false);
-        controls.SetActive(false);
+        creditPanel.SetActive(false);
+        settingPanel.SetActive(false);
+        controlPanel.SetActive(false);
+        audioPanel.SetActive(false);
 
         if (PlayerPrefs.HasKey("Volume"))
         {
             PlayerPrefs.SetFloat("Volume", 1);
-            loadVoulme();
+            LoadVolume();
         }
         else
         {
-            loadVoulme();
+            LoadVolume();
         }
 
         if (!PlayerPrefs.HasKey("Muted"))
         {
             PlayerPrefs.SetInt("Muted", 0);
-            loadSound();
+            LoadMusic();
         }
         else
         {
-            loadSound();
+            LoadMusic();
         }
-        updateSoundText();
+        updateMusicIcon();
         AudioListener.pause = isMuted;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        changeVolume();
     }
 
-    public void settingbtn()
+    public void Backbtn()
     {
-        settings.SetActive(true);
-        controls.SetActive(false);
+        settingPanel.SetActive(false);
+        creditPanel.SetActive(false);
     }
 
-    public void controlsbtn()
+    public void newGamebtnclicked()
     {
-        controls.SetActive(true);
-        settings.SetActive(false);
+
     }
 
-    public void backbtn()
+    public void Credits()
     {
-        settings.SetActive(false);
-        controls.SetActive(false);
+        creditPanel.SetActive(true);
+        settingPanel.SetActive(false);
+        controlPanel.SetActive(false);
+        audioPanel.SetActive(false);
     }
 
-    public void playbtnclicked()
+    public void Settings()
     {
-        SceneManager.LoadScene("Labyrinth");
-        // Debug.Log("Play");
+        settingPanel.SetActive(true);
+        audioPanel.SetActive(true);
+        creditPanel.SetActive(false);
     }
 
-    public void exitbtnclicked()
+    public void exitGame()
     {
         Application.Quit();
     }
-    
+
+    public void Controls()
+    {
+        controlPanel.SetActive(true);
+        audioPanel.SetActive(false);
+        ControlBtn.color = Color.red;
+        AudioBtn.color = Color.white;
+    }
+
+    public void Audios()
+    {
+        audioPanel.SetActive(true);
+        controlPanel.SetActive(false);
+        AudioBtn.color = Color.red;
+        ControlBtn.color = Color.white;
+    }
+
     public void changeVolume()
     {
         AudioListener.volume = volumeSlider.value;
-        saveVolume();
+        SaveVolume();
     }
 
-    public void loadVoulme()
+    public void LoadVolume()
     {
         volumeSlider.value = PlayerPrefs.GetFloat("Volume");
     }
 
-    public void saveVolume()
+    public void SaveVolume()
     {
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
     }
 
-    public void soundBtn()
+    public void musicBtn()
     {
         if (isMuted == false)
         {
@@ -110,29 +136,31 @@ public class Main_Menu : MonoBehaviour
             isMuted = false;
             AudioListener.pause = false;
         }
-        saveSound();
-        updateSoundText();
+        SaveMusic();
+        updateMusicIcon();
     }
 
-    public void loadSound()
+     public void updateMusicIcon()
+    {
+        if(isMuted == false)
+        {
+            musicON.enabled = true;
+            musicOFF.enabled = false;
+        }
+        else
+        {
+            musicON.enabled = false;
+            musicOFF.enabled = true;
+        }
+    }
+
+    public void LoadMusic()
     {
         isMuted = PlayerPrefs.GetInt("Muted") == 1;
     }
 
-    public void saveSound()
+    public void SaveMusic()
     {
         PlayerPrefs.SetInt("Muted", isMuted ? 1 : 0);
-    }
-
-    public void updateSoundText()
-    {
-        if (isMuted == false)
-        {
-            sound.text = "ON";
-        }
-        else
-        {
-            sound.text = "OFF";
-        }
     }
 }

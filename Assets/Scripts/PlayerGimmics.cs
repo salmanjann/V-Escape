@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerGimmics : MonoBehaviour
 {
+    private Rigidbody rigidbody;
+    private Transform transform;
+
     private Vector3 temp_coordinates;
     private bool CanTeleport;
     // Start is called before the first frame update
     void Start()
     {
         CanTeleport = true;
+        rigidbody = this.GetComponent<Rigidbody>();
+        transform = this.GetComponent<Transform>();
     }
 
     public void TeleportActivation(Vector3 coordinates)

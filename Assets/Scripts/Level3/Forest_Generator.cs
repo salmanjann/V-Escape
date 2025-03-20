@@ -154,7 +154,7 @@ public class Forest_Generator : MonoBehaviour
     private void Spawn_Bushes()
     {
         GameObject parent = new GameObject("Bushes");
-        int number_of_objects = (terrain_size.x * terrain_size.y) / (2 * 2);
+        int number_of_objects = (terrain_size.x * terrain_size.y) / (10 * 10);
         for(int i = 0; i < number_of_objects; i++)
         {
             GameObject obj = Instantiate(Small_Bush_Prefab);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Level3BushMechanics : MonoBehaviour
@@ -19,6 +20,8 @@ public class Level3BushMechanics : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
       Destroy(this.GetComponent<BoxCollider>());  
+      this.AddComponent<SphereCollider>();
+      this.AddComponent<Rigidbody>().isKinematic = true;
       Destroy(this.GetComponent<Level3BushMechanics>());  
     }
 }

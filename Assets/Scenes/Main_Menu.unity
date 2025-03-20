@@ -701,7 +701,7 @@ RectTransform:
   m_Father: {fileID: 1761578119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -4.519989, y: 0}
   m_SizeDelta: {x: 0.961, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1573,7 +1573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &448375084
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1670,7 +1670,7 @@ RectTransform:
   m_Father: {fileID: 566868028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: -2.8000183, y: 0}
   m_SizeDelta: {x: 16.685, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4296,7 +4296,7 @@ Animator:
   m_GameObject: {fileID: 1247848431}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f5f80fb15c5d5574e8d78cf9dfb1215e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1a462d169290eca12961051c873af7aa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4961,7 +4961,7 @@ Animator:
   m_GameObject: {fileID: 1455152314}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 23b3ca309e86ad94aa5c78cad8fca945, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1a462d169290eca12961051c873af7aa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6717,7 +6717,7 @@ Animator:
   m_GameObject: {fileID: 1774158120}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 82cefaa6a4f677747bcea83d8f37d9b4, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1a462d169290eca12961051c873af7aa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7720,7 +7720,7 @@ Animator:
   m_GameObject: {fileID: 1930971348}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 04d3a2ea4488d044386c1dc3e854bc57, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1a462d169290eca12961051c873af7aa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

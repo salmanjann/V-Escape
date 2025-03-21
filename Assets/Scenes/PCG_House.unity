@@ -475,6 +475,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1578280056225003630, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
         type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578280056225003630, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
+        type: 3}
       propertyPath: winPanel
       value: 
       objectReference: {fileID: 899806624}

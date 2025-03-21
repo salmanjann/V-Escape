@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PickandDrop : MonoBehaviour
 {
+
+    public Animator loadin_Animator;
+    public RectTransform loadpannel;
+    public int level;
     public Transform playerCam;  
     public Transform collectablePos;  
     public LayerMask collectableLayer; 
@@ -16,6 +20,9 @@ public class PickandDrop : MonoBehaviour
     private Player_Movement playerMov;
     void Start()
     {
+        Player_Movement player_Movement = this.GetComponent<Player_Movement>();
+        loadin_Animator = player_Movement.loadin_Animator;
+        loadpannel = player_Movement.loadpannel;
         winPanel.gameObject.SetActive(false);
         playerMov = this.GetComponent<Player_Movement>();
     }
@@ -66,8 +73,44 @@ public class PickandDrop : MonoBehaviour
         }
     }
 
+    private string nextscene()
+    {
+        switch(level)
+        {
+            case 1:
+            return "Labyrinth";
+            case 2:
+            return "Forest";
+            default:
+            return "Main_Menu";
+        }
+    }
+
     private void nextLevel()
     {
         Debug.Log("Next Level");
+        loadin_Animator.SetTrigger("SlideIn");
+        Invoke("startLoadingIntro",1f);
+    }
+    private void startLoadingIntro()
+    {
+        loadpannel.position = new Vector3(0, loadpannel.position.y, loadpannel.position.z);
+        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Loading")
+        {
+            GameObject temp = GameObject.Find("EventSystemLoading");
+            if (temp != null)
+            {
+                LoadScreen loadScreen = temp.GetComponent<LoadScreen>();
+                loadScreen.previous = this.gameObject.scene.name;
+                loadScreen.next = nextscene();
+                loadScreen.delay = 1;
+            }
+        }
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe after handling
     }
 }

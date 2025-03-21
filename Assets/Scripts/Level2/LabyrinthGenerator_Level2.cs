@@ -213,7 +213,7 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
         do
         {
             position = new Vector2Int((int)UnityEngine.Random.Range(0,size.x - 0.1f),(int)UnityEngine.Random.Range(0,size.y - 0.1f));
-        } while(Vector2Int.Distance(position,Vector2Int.zero) >= math.sqrt(math.pow(size.x,2)+math.pow(size.y,2))/3);
+        } while(Vector2Int.Distance(position,Vector2Int.zero) <= math.sqrt(math.pow(size.x,2)+math.pow(size.y,2))/3);
         slots.Remove(position);
         GameObject artifact = Instantiate(artifact_prefab);
         artifact.name = "Artifact";

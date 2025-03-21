@@ -86,7 +86,7 @@ public class Main_Menu : MonoBehaviour
 
     private void startLoadingIntro()
     {
-        loadpannel.position = new Vector3(0, 0, 0);
+        loadpannel.position = new Vector3(0, loadpannel.position.y, loadpannel.position.z);
         SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }

@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player_Movement : MonoBehaviour
 {
+    private bool died;
+    private float reductionRate;
+    public Animator loadin_Animator;
+    public RectTransform loadpannel;
     // Movement Variables
 
     [Header("Movement")]
@@ -45,6 +50,8 @@ public class Player_Movement : MonoBehaviour
 
     private void Start()
     {
+        reductionRate = 0.02f;
+        died = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
@@ -77,17 +84,42 @@ public class Player_Movement : MonoBehaviour
     {
         if(flashBarSprite.fillAmount == 0f)
         {
-            healthBarSprite.fillAmount -= 0.0005f;
+            healthBarSprite.fillAmount -= reductionRate * Time.deltaTime;
         }
-        if (healthBarSprite.fillAmount == 0f)
+        if (healthBarSprite.fillAmount == 0f && !died)
         {
-            Debug.Log("Died");
+            died = true;
+            loadin_Animator.SetTrigger("SlideIn");
+            Invoke("startLoadingIntro",1f);
         }
+    }
+    private void startLoadingIntro()
+    {
+        loadpannel.position = new Vector3(0, loadpannel.position.y, loadpannel.position.z);
+        SceneManager.LoadScene("GameOver", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "GameOver")
+        {
+            GameObject temp = GameObject.Find("EventSystemGameOver");
+            if (temp != null)
+            {
+                GameOver gameover = temp.GetComponent<GameOver>();
+                gameover.sceneName = sceneName;
+                gameover.camera.SetActive(true);
+                gameover.canvas.SetActive(true);
+                gameover.loadin_Animator.SetTrigger("SlideOut");
+                SceneManager.UnloadScene(sceneName);
+            }
+        }
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe after handling
     }
 
     private void updateFlashBar()
     {
-        flashBarSprite.fillAmount -= 0.0005f;
+        flashBarSprite.fillAmount -= reductionRate * Time.deltaTime;
     }
 
     public void increaseFlash()

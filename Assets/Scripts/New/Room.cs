@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.GameCenter;
+// using UnityEngine.SocialPlatforms.GameCenter;
 using System.Linq;
 public class Room
 {

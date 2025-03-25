@@ -6,24 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main_Menu.unity
+    path: Assets/Scenes/Menu/Main_Menu.unity
     guid: cf3064d9f62319d48bd2cd893166d4ca
   - enabled: 1
-    path: Assets/Scenes/PCG_House.unity
+    path: Assets/Scenes/Levels/Level01/PCG_House.unity
     guid: 137d1e8de406e024caeba688a4487c85
   - enabled: 1
-    path: Assets/Scenes/Forest.unity
+    path: Assets/Scenes/Levels/Level03/Forest.unity
     guid: a39f18dac95510785bb6b4a6d219121c
   - enabled: 1
     path: Assets/Scenes/Cutscenes/Intro.unity
     guid: 6c86fbabcdd22ab65a5603a3af148d25
   - enabled: 1
-    path: Assets/Scenes/Labyrinth.unity
+    path: Assets/Scenes/Levels/Level02/Labyrinth.unity
     guid: 43abe004cb6086d0f92555fc18ef07bc
   - enabled: 1
     path: Assets/Scenes/loading/Loading.unity
     guid: dd21ddb8efe8bd0a7bcb4391c77a6c5a
   - enabled: 1
-    path: Assets/Scenes/GameOver.unity
+    path: Assets/Scenes/Menu/GameOver.unity
     guid: 36c01918a2c37af448f6199cf7a04eec
   m_configObjects: {}

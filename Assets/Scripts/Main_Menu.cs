@@ -37,7 +37,7 @@ public class Main_Menu : MonoBehaviour
         settingPanel.SetActive(false);
         controlPanel.SetActive(false);
         audioPanel.SetActive(false);
-        actionPrompt.enabled = false; ;
+        actionPrompt.enabled = false;
 
         if (PlayerPrefs.HasKey("Volume"))
         {

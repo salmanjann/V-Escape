@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class LabyrinthGenerator_Level2 : MonoBehaviour
 {
+    private level2Debug level2debug;
     public GameObject wall_prefab;
     public GameObject ground_prefab;
     public GameObject artifact_prefab;
@@ -18,6 +19,7 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        level2debug = this.GetComponent<level2Debug>();
         seed_manage();
         wallplacer();
         groundplacer();
@@ -219,6 +221,7 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
         artifact.name = "Artifact";
         artifact.transform.parent = this.transform;
         artifact.transform.position = new Vector3(1.5f + 3 * position.x, 1f, 0 + 3 * position.y);
+        level2debug.artifact = artifact;
 
         int teleporters = size.x + size.y / (2 * 5);
         GameObject parent = new GameObject("Teleporters");

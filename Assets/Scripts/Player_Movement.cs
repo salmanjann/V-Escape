@@ -48,6 +48,8 @@ public class Player_Movement : MonoBehaviour
 
     public string sceneName;
 
+    public GameObject actionPrompt;
+
     private void Start()
     {
         reductionRate = 0.02f;
@@ -56,6 +58,8 @@ public class Player_Movement : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
+
+        actionPrompt.SetActive(false);
     }
 
     private void Update()
@@ -187,5 +191,22 @@ public class Player_Movement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Artifact"))
+        {
+            actionPrompt.SetActive(true);
+        }
+    }
+
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Artifact"))
+        {
+            actionPrompt.SetActive(false);
+        }
     }
 }

@@ -52,6 +52,12 @@ public class PickandDrop : MonoBehaviour
                         return;  // Stop further execution
                     }
 
+                    if (hitObject.CompareTag("Key"))
+                    {
+                        Destroy(hitObject);
+                        return;  // Stop further execution
+                    }
+
                     if (hitObject.CompareTag("Artifact"))
                     {
                         Destroy(hitObject);

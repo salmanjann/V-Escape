@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Proc_Gen : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class Proc_Gen : MonoBehaviour
     [SerializeField] private GameObject artifact;
     [SerializeField] private GameObject battery;
     [SerializeField] private Proc_Gen_UI procGenUI;
+    [SerializeField] private Minimap minimap;
+    [SerializeField] private GameObject minimapUI;
+    [SerializeField] private Player_Movement player_MovementRef;
 
     private int seed;
     [SerializeField, Range(3, 5)] private int nFloors;
@@ -31,7 +35,8 @@ public class Proc_Gen : MonoBehaviour
     private int prevSeed, prevNFloors;
     public GameObject player;
     Floor[] floors;
-    int currentFloor;
+    public int currentFloor;
+    int prevFloor;
     float currentY;
     int[] keyRings;
     void Awake()
@@ -53,11 +58,18 @@ public class Proc_Gen : MonoBehaviour
         player.GetComponent<Rigidbody>().position = new Vector3(12, (nFloors - 1) * 4 + 0.55f, -34f);
 
         currentFloor = (int)player.GetComponent<Rigidbody>().position.y / 4 + 1;
+        prevFloor = currentFloor;
+
+        minimap.PlaceTrapDoor(currentFloor);
 
         procGenUI.UpdateCurrentFloor(currentFloor);
         // Debug.Log("Current Floor " + currentFloor.ToString());
         currentY = player.GetComponent<Rigidbody>().position.y;
+        procGenUI.UpdateTrapDoorImage("red");
         Generate();
+    
+        player_MovementRef.minutesToDecrease = keyRings[currentFloor - 1];
+        player_MovementRef.increaseFlash();
     }
 
     void Update()
@@ -74,23 +86,50 @@ public class Proc_Gen : MonoBehaviour
         {
             currentY = player.GetComponent<Rigidbody>().position.y;
             currentFloor = (int)player.GetComponent<Rigidbody>().position.y / 4 + 1;
-            procGenUI.UpdateCurrentFloor(currentFloor);
-            procGenUI.UpdateRemainingKeys(keyRings[currentFloor - 1]);
-            if (currentFloor == 1)
+            if (currentFloor != prevFloor)
             {
-                procGenUI.UpdateKeysText("Collect Artifact");
+                prevFloor = currentFloor;
+                player_MovementRef.minutesToDecrease = keyRings[currentFloor - 1]/2.0f;
+                player_MovementRef.increaseFlash();
+                minimap.PlaceTrapDoor(currentFloor);
+
+                procGenUI.UpdateCurrentFloor(currentFloor);
+                procGenUI.UpdateTrapDoorImage("red");
+                procGenUI.UpdateRemainingKeys(keyRings[currentFloor - 1]);
+                if (currentFloor == 1)
+                {
+                    player_MovementRef.minutesToDecrease = 1;
+                    // procGenUI.UpdateTrapDoorImage("red",true);
+                    minimapUI.SetActive(false);
+                    procGenUI.UpdateKeysText("Collect Artifact");
+                    procGenUI.UpdateRemainingKeys(-1, true);
+                }
             }
 
             // Debug.Log("Current Floor " + currentFloor.ToString());
         }
     }
-    public void CollectKey(int _currentFloor)
+
+    public void MovePlayerToGround()
     {
-        keyRings[_currentFloor]--;
-        procGenUI.UpdateRemainingKeys(keyRings[_currentFloor]);
+        player.GetComponent<Rigidbody>().transform.position = new Vector3(7.5f, 0.55f, -33.5f);
+    }
+    public void CollectKey(int _currentFloor, bool isKeySmasher = false)
+    {
+        if (isKeySmasher)
+        {
+            keyRings[_currentFloor] = 0;
+            procGenUI.UpdateRemainingKeys(keyRings[_currentFloor]);
+        }
+        else
+        {
+            keyRings[_currentFloor]--;
+            procGenUI.UpdateRemainingKeys(keyRings[_currentFloor]);
+        }
         // Debug.Log("Remaing keys " + keyRings[_currentFloor].ToString());
         if (keyRings[_currentFloor] == 0)
         {
+            procGenUI.UpdateTrapDoorImage("green");
             GameObject floor = GameObject.Find($"Floor_{currentFloor}");
             if (floor != null)
             {
@@ -161,7 +200,10 @@ public class Proc_Gen : MonoBehaviour
             _doorWall[0] = 0;
 
             int nKeyRings = UnityEngine.Random.Range(2, 6);
-            keyRings[floor] = nKeyRings;
+            if (floor == 0)
+                keyRings[floor] = 2;
+            else
+                keyRings[floor] = nKeyRings;
             List<Ground> availableTiles = new List<Ground>();
 
             if (floor < nFloors - 1)
@@ -197,7 +239,7 @@ public class Proc_Gen : MonoBehaviour
                     }
                 }
             }
-            
+
             DestroyTrapDoor(floor, floor % 2);
 
 

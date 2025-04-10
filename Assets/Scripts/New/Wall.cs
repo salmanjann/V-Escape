@@ -102,7 +102,7 @@ public class Wall
                 if (_isBase)
                     col[wallNumber] = Random.Range(0, 2);
                 else
-                    col[wallNumber] = Random.Range(2, 4);
+                    col[wallNumber] = Random.Range(2, 3);
             }
             else if (row[wallNumber] == 1)
             {

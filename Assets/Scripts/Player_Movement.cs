@@ -11,6 +11,9 @@ public class Player_Movement : MonoBehaviour
     private float reductionRate;
     public Animator loadin_Animator;
     public RectTransform loadpannel;
+    public RedBlinking redBlinkingRef;
+    private bool isBlinking = false;
+
     // Movement Variables
 
     [Header("Movement")]
@@ -22,6 +25,8 @@ public class Player_Movement : MonoBehaviour
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
+
+    public float minutesToDecrease = 1f;
 
     [HideInInspector] public float walkSpeed;
     [HideInInspector] public float sprintSpeed;
@@ -58,8 +63,8 @@ public class Player_Movement : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
-
-        actionPrompt.SetActive(false);
+        // Set reduction rate based on the desired minutes
+        SetFlashlightDecreaseRate(minutesToDecrease);
     }
 
     private void Update()
@@ -84,17 +89,32 @@ public class Player_Movement : MonoBehaviour
         updateFlashBar();
     }
 
+    private void SetFlashlightDecreaseRate(float minutes)
+    {
+        float totalSeconds = minutes * 60f;
+        reductionRate = 1f / totalSeconds;
+    }
+
     private void updateHealthBar()
     {
-        if(flashBarSprite.fillAmount == 0f)
+        if (flashBarSprite.fillAmount == 0f)
         {
-            healthBarSprite.fillAmount -= reductionRate * Time.deltaTime;
+            healthBarSprite.fillAmount -= 0.02f * Time.deltaTime;
+            if (!isBlinking)
+            {
+                redBlinkingRef.StartBlinking();
+                isBlinking = true;
+            }
         }
         if (healthBarSprite.fillAmount == 0f && !died)
         {
+            if (isBlinking)
+            {
+                redBlinkingRef.StopBlinking();
+            }
             died = true;
             loadin_Animator.SetTrigger("SlideIn");
-            Invoke("startLoadingIntro",1f);
+            Invoke("startLoadingIntro", 1f);
         }
     }
     private void startLoadingIntro()
@@ -145,7 +165,7 @@ public class Player_Movement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
 
@@ -161,11 +181,11 @@ public class Player_Movement : MonoBehaviour
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         // on ground
-        if(grounded)
+        if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
         // in air
-        else if(!grounded)
+        else if (!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
     }
 
@@ -174,7 +194,7 @@ public class Player_Movement : MonoBehaviour
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         // limit velocity if needed
-        if(flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);

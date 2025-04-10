@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class LoadScreen : MonoBehaviour
 {
+    private float load_delay;
+    private bool freeze;
+    private int pillsLoaded;
     public List<GameObject> loadingPills;
     public String previous, next;
     public float delay;
@@ -16,6 +19,9 @@ public class LoadScreen : MonoBehaviour
     private bool loading;
     void Start()
     {
+        load_delay = 0f;
+        freeze = true;
+        pillsLoaded = 0;
         loaded = false;
         loading = false;
         sceneloading = null;
@@ -23,6 +29,7 @@ public class LoadScreen : MonoBehaviour
         {
             loadingPill.SetActive(false);
         }
+        Invoke("unfreeze",0.4f + load_delay);
         Invoke("Initiate_Load",0f); 
     }
     
@@ -31,15 +38,26 @@ public class LoadScreen : MonoBehaviour
         UpdatePills();
         LoadScene();
     }
+    private void unfreeze()
+    {
+        pillsLoaded++;
+        freeze = false;
+    }
     private void UpdatePills()
     {
-        float loadedPercent = 0.9f / 8f;
+        if(freeze)
+            return;
+        float loadedPercent = 0.8f / 8f;
         float current = loadedPercent;
         foreach(GameObject loadingPill in loadingPills)
         {
-            if(sceneloading.progress >= current)
+            if(!loadingPill.activeInHierarchy && sceneloading.progress >= current)
             {
                 loadingPill.SetActive(true);
+                freeze = true;
+                load_delay += 0.05f;
+                Invoke("unfreeze",0.05f + load_delay);
+                break;
             }
             current += loadedPercent;
         }
@@ -51,7 +69,7 @@ public class LoadScreen : MonoBehaviour
             sceneloading = SceneManager.LoadSceneAsync(next);
             SceneManager.UnloadScene(previous);
             // sceneunloading = SceneManager.UnloadSceneAsync(previous);
-            sceneloading.allowSceneActivation = true;
+            sceneloading.allowSceneActivation = false;
             // sceneunloading.allowSceneActivation = false;
             next = null;
             previous = null;
@@ -61,6 +79,10 @@ public class LoadScreen : MonoBehaviour
 
     private void LoadScene()
     {
+        if(pillsLoaded<loadingPills.Count)
+            return;
+        if(freeze)
+            return;
         if(loaded)
             return;
         if(loading)

@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class ManagerCutscene : MonoBehaviour
 {
-    private GameObject canvas;
     public Animator loadin_Animator;
     public RectTransform loadpannel;
     protected int scene;
@@ -67,7 +66,6 @@ public class ManagerCutscene : MonoBehaviour
     {
         SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        canvas.SetActive(false);
     }
     protected virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -109,10 +107,6 @@ public class ManagerCutscene : MonoBehaviour
         }
     }
 
-    private void Hidecanvas()
-    {
-        canvas.SetActive(false);
-    }
 
     protected IEnumerator goNext()
     {

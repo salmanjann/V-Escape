@@ -4507,6 +4507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e3c7e4fc51312f0986333869bc0313, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 1651160156}
   loadin_Animator: {fileID: 1720359519}
   loadpannel: {fileID: 1720359518}
   scenesCount: 18

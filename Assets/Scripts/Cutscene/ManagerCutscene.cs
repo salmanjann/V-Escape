@@ -107,6 +107,7 @@ public class ManagerCutscene : MonoBehaviour
         }
     }
 
+
     protected IEnumerator goNext()
     {
         yield return new WaitForSecondsRealtime(10f);

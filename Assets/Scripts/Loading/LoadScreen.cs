@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class LoadScreen : MonoBehaviour
 {
+    public List<GameObject> loadingPills;
     public String previous, next;
     public float delay;
     private AsyncOperation sceneloading;
@@ -18,12 +19,30 @@ public class LoadScreen : MonoBehaviour
         loaded = false;
         loading = false;
         sceneloading = null;
+        foreach(GameObject loadingPill in loadingPills)
+        {
+            loadingPill.SetActive(false);
+        }
         Invoke("Initiate_Load",0f); 
     }
     
     void Update()
     {
+        UpdatePills();
         LoadScene();
+    }
+    private void UpdatePills()
+    {
+        float loadedPercent = 0.9f / 8f;
+        float current = loadedPercent;
+        foreach(GameObject loadingPill in loadingPills)
+        {
+            if(sceneloading.progress >= current)
+            {
+                loadingPill.SetActive(true);
+            }
+            current += loadedPercent;
+        }
     }
     private void Initiate_Load()
     {

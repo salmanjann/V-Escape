@@ -27,7 +27,7 @@ public class Main_Menu : MonoBehaviour
     public Text CreditBtn;
     public Text newGameBtn;
     public Text exitGameBtn;
-    public Text actionPrompt;
+    // public Text actionPrompt;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +37,7 @@ public class Main_Menu : MonoBehaviour
         settingPanel.SetActive(false);
         controlPanel.SetActive(false);
         audioPanel.SetActive(false);
-        actionPrompt.enabled = false;
+        // actionPrompt.enabled = false;
 
         if (PlayerPrefs.HasKey("Volume"))
         {
@@ -217,20 +217,20 @@ public class Main_Menu : MonoBehaviour
         PlayerPrefs.SetInt("Muted", isMuted ? 1 : 0);
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("CollectAble"))
-        {
-            actionPrompt.enabled = true;
-        }
-    }
+    // void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.CompareTag("CollectAble"))
+    //     {
+    //         actionPrompt.enabled = true;
+    //     }
+    // }
 
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("CollectAble"))
-        {
-            actionPrompt.enabled = false;
-        }
-    }
+    // void OnTriggerExit(Collider other)
+    // {
+    //     if (other.CompareTag("CollectAble"))
+    //     {
+    //         actionPrompt.enabled = false;
+    //     }
+    // }
 }

@@ -49,7 +49,26 @@ public class Pause_Panel : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("Main_Menu");
+        Time.timeScale = 1f;
+        // loadpannel.position = new Vector3(0, loadpannel.position.y, loadpannel.position.z);
+        SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Loading")
+        {
+            GameObject temp = GameObject.Find("EventSystemLoading");
+            if (temp != null)
+            {
+                Scene sc = this.gameObject.scene;
+                LoadScreen loadScreen = temp.GetComponent<LoadScreen>();
+                loadScreen.previous = sc.name;
+                loadScreen.next = "Main_Menu";
+                loadScreen.delay = 0;
+            }
+        }
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Unsubscribe after handling
     }
 
     public void Resume()

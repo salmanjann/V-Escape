@@ -148,7 +148,7 @@ public class Player_Movement : MonoBehaviour
 
     public void increaseFlash()
     {
-        redBlinkingRef.StartBlinking();
+        redBlinkingRef.StopBlinking();
         flashBarSprite.fillAmount = 1f;
     }
 

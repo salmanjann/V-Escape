@@ -61,7 +61,7 @@ public class Player_Movement : MonoBehaviour
         died = false;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
+        actionPrompt.SetActive(false);
         readyToJump = true;
         // Set reduction rate based on the desired minutes
         SetFlashlightDecreaseRate(minutesToDecrease);
@@ -216,16 +216,17 @@ public class Player_Movement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Artifact"))
+        if (other.CompareTag("Artifact") || other.CompareTag("Key"))
         {
             actionPrompt.SetActive(true);
         }
+        
     }
 
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Artifact"))
+        if (other.CompareTag("Artifact") || other.CompareTag("Key"))
         {
             actionPrompt.SetActive(false);
         }

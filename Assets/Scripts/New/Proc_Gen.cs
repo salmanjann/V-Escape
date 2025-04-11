@@ -69,7 +69,7 @@ public class Proc_Gen : MonoBehaviour
         Generate();
     
         player_MovementRef.minutesToDecrease = keyRings[currentFloor - 1];
-        player_MovementRef.increaseFlash();
+        // player_MovementRef.increaseFlash();
     }
 
     void Update()
@@ -89,7 +89,7 @@ public class Proc_Gen : MonoBehaviour
             if (currentFloor != prevFloor)
             {
                 prevFloor = currentFloor;
-                player_MovementRef.minutesToDecrease = keyRings[currentFloor - 1]/2.0f;
+                player_MovementRef.minutesToDecrease = keyRings[currentFloor - 1];
                 player_MovementRef.increaseFlash();
                 minimap.PlaceTrapDoor(currentFloor);
 

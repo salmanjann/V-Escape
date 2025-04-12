@@ -7,37 +7,40 @@ using UnityEngine.SceneManagement;
 
 public class Main_Menu : MonoBehaviour
 {
+    [Header("Loading Screen")]
     public Animator loadin_Animator;
     public RectTransform loadpannel;
+
+    [Header("Game Panels")]
+    public GameObject startPanel;
     public GameObject mainMenu;
     public GameObject creditPanel;
     public GameObject settingPanel;
     public GameObject controlPanel;
     public GameObject audioPanel;
 
+    [Header("Audios")]
     public AudioSource audioSource;
     public Slider volumeSlider;
 
+    [Header("Texts")]
+    private bool isMuted;
     public Text music;
-    public bool isMuted;
-
     public Text AudioBtn;
     public Text ControlBtn;
     public Text SettingBtn;
     public Text CreditBtn;
     public Text newGameBtn;
     public Text exitGameBtn;
-    // public Text actionPrompt;
 
-    // Start is called before the first frame update
     void Start()
     {
-        mainMenu.SetActive(true);
+        startPanel.SetActive(true);
+        mainMenu.SetActive(false);
         creditPanel.SetActive(false);
         settingPanel.SetActive(false);
         controlPanel.SetActive(false);
         audioPanel.SetActive(false);
-        // actionPrompt.enabled = false;
 
         if (PlayerPrefs.HasKey("Volume"))
         {
@@ -62,7 +65,6 @@ public class Main_Menu : MonoBehaviour
         AudioListener.pause = isMuted;
     }
 
-    // Update is called once per frame
     void Update()
     {
         changeVolume();
@@ -83,7 +85,13 @@ public class Main_Menu : MonoBehaviour
         SettingBtn.color = Color.white;
         exitGameBtn.color = Color.white;
         loadin_Animator.SetTrigger("SlideIn");
-        Invoke("startLoadingIntro",1f);
+        Invoke("startLoadingIntro", 1f);
+    }
+
+    public void Startbtn()
+    {
+        startPanel.SetActive(false);
+        mainMenu.SetActive(true);
     }
 
     private void startLoadingIntro()
@@ -216,21 +224,4 @@ public class Main_Menu : MonoBehaviour
     {
         PlayerPrefs.SetInt("Muted", isMuted ? 1 : 0);
     }
-
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.CompareTag("CollectAble"))
-    //     {
-    //         actionPrompt.enabled = true;
-    //     }
-    // }
-
-
-    // void OnTriggerExit(Collider other)
-    // {
-    //     if (other.CompareTag("CollectAble"))
-    //     {
-    //         actionPrompt.enabled = false;
-    //     }
-    // }
 }

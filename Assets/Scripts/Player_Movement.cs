@@ -216,7 +216,7 @@ public class Player_Movement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Artifact") || other.CompareTag("Key"))
+        if (other.CompareTag("Artifact") || other.CompareTag("Key") || other.CompareTag("Flash"))
         {
             actionPrompt.SetActive(true);
         }
@@ -226,7 +226,7 @@ public class Player_Movement : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Artifact") || other.CompareTag("Key"))
+        if (other.CompareTag("Artifact") || other.CompareTag("Key") || other.CompareTag("Flash"))
         {
             actionPrompt.SetActive(false);
         }

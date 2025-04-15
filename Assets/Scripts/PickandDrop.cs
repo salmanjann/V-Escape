@@ -16,6 +16,7 @@ public class PickandDrop : MonoBehaviour
 
     public GameObject winPanel;
 
+    public GameObject actionPrompt;
     private CollectAbleObjects collectAbleObjects;  // Reference to currently held object
     private Player_Movement playerMov;
     void Start()
@@ -48,6 +49,7 @@ public class PickandDrop : MonoBehaviour
                     if (hitObject.CompareTag("Flash"))
                     {
                         Destroy(hitObject);
+                        actionPrompt.SetActive(false);
                         playerMov.increaseFlash(); 
                         return;  // Stop further execution
                     }
@@ -55,12 +57,16 @@ public class PickandDrop : MonoBehaviour
                     if (hitObject.CompareTag("Key"))
                     {
                         Destroy(hitObject);
+                        actionPrompt.SetActive(false);
+
                         return;  // Stop further execution
                     }
 
                     if (hitObject.CompareTag("Artifact"))
                     {
                         Destroy(hitObject);
+                        actionPrompt.SetActive(false);
+
                         winPanel.gameObject.SetActive(true);
                         Invoke("nextLevel", 1f);
                         return;  // Stop further execution

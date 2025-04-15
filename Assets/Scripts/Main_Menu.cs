@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Main_Menu : MonoBehaviour
 {
+    private bool start;
     [Header("Loading Screen")]
     public Animator loadin_Animator;
     public RectTransform loadpannel;
@@ -35,6 +36,7 @@ public class Main_Menu : MonoBehaviour
 
     void Start()
     {
+        start = false;
         startPanel.SetActive(true);
         mainMenu.SetActive(false);
         creditPanel.SetActive(false);
@@ -67,7 +69,18 @@ public class Main_Menu : MonoBehaviour
 
     void Update()
     {
+        startPress();
         changeVolume();
+    }
+    private void startPress()
+    {
+        if(start)
+            return;
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space))
+        {
+            start = true;
+            Startbtn();
+        }
     }
 
     public void Backbtn()

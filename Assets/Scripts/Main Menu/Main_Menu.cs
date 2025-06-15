@@ -78,7 +78,6 @@ public class Main_Menu : MonoBehaviour
             return;
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space))
         {
-            start = true;
             Startbtn();
         }
     }
@@ -87,7 +86,10 @@ public class Main_Menu : MonoBehaviour
     {
         settingPanel.SetActive(false);
         creditPanel.SetActive(false);
+        controlPanel.SetActive(false);
         mainMenu.SetActive(true);
+        AudioBtn.color = Color.red;
+        ControlBtn.color = Color.white;
     }
 
     public void newGamebtnclicked()
@@ -100,6 +102,7 @@ public class Main_Menu : MonoBehaviour
 
     public void Startbtn()
     {
+        start = true;
         startPanel.SetActive(false);
         mainMenu.SetActive(true);
     }

@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class Main_Menu : MonoBehaviour
 {
     private bool start;
+
     [Header("Loading Screen")]
     public Animator loadin_Animator;
     public RectTransform loadpannel;
@@ -29,8 +30,6 @@ public class Main_Menu : MonoBehaviour
     public Text music;
     public Text AudioBtn;
     public Text ControlBtn;
-    public Text SettingBtn;
-    public Text CreditBtn;
     public Text newGameBtn;
     public Text exitGameBtn;
 
@@ -72,6 +71,7 @@ public class Main_Menu : MonoBehaviour
         startPress();
         changeVolume();
     }
+
     private void startPress()
     {
         if(start)
@@ -87,15 +87,12 @@ public class Main_Menu : MonoBehaviour
     {
         settingPanel.SetActive(false);
         creditPanel.SetActive(false);
-        CreditBtn.color = Color.white;
-        SettingBtn.color = Color.white;
+        mainMenu.SetActive(true);
     }
 
     public void newGamebtnclicked()
     {
         newGameBtn.color = Color.red;
-        CreditBtn.color = Color.white;
-        SettingBtn.color = Color.white;
         exitGameBtn.color = Color.white;
         loadin_Animator.SetTrigger("SlideIn");
         Invoke("startLoadingIntro", 1f);
@@ -113,6 +110,7 @@ public class Main_Menu : MonoBehaviour
         SceneManager.LoadScene("Loading", LoadSceneMode.Additive);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Loading")
@@ -132,12 +130,8 @@ public class Main_Menu : MonoBehaviour
     public void Credits()
     {
         creditPanel.SetActive(true);
+        mainMenu.SetActive(false);
         settingPanel.SetActive(false);
-        controlPanel.SetActive(false);
-        audioPanel.SetActive(false);
-        CreditBtn.color = Color.red;
-        SettingBtn.color = Color.white;
-        newGameBtn.color = Color.white;
         exitGameBtn.color = Color.white;
     }
 
@@ -145,19 +139,14 @@ public class Main_Menu : MonoBehaviour
     {
         settingPanel.SetActive(true);
         audioPanel.SetActive(true);
+        mainMenu.SetActive(false);
         creditPanel.SetActive(false);
-        SettingBtn.color = Color.red;
-        CreditBtn.color = Color.white;
-        newGameBtn.color = Color.white;
         exitGameBtn.color = Color.white;
     }
 
     public void exitGame()
     {
         exitGameBtn.color = Color.red;
-        newGameBtn.color = Color.white;
-        CreditBtn.color = Color.white;
-        SettingBtn.color = Color.white;
         Invoke("Quit", 1f);
     }
 

@@ -73,7 +73,7 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
                 component.Add_parent(new Vector2Int(i, j));
                 component.Is_edge(size);
                 wall.transform.parent = this.gameObject.transform;
-                // wall.isStatic = true;
+                wall.isStatic = true;
                 walls.Add(wall);
                 components.Add(component);
                 wall.transform.parent = parent.transform;
@@ -90,7 +90,7 @@ public class LabyrinthGenerator_Level2 : MonoBehaviour
                 component.Add_parent(new Vector2Int(j, i));
                 component.Is_edge(size);                
                 wall.transform.parent = this.gameObject.transform;
-                // wall.isStatic = true;
+                wall.isStatic = true;
                 walls.Add(wall);
                 components.Add(component);
                 wall.transform.parent = parent.transform;

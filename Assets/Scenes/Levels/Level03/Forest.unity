@@ -640,8 +640,32 @@ PrefabInstance:
     - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8227154356199303457, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 172787794}
   m_SourcePrefab: {fileID: 100100000, guid: 1b0878f739bedd5f0a1cd6cdf26825d2, type: 3}
+--- !u!1 &172787793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8227154356199303457, guid: 1b0878f739bedd5f0a1cd6cdf26825d2,
+    type: 3}
+  m_PrefabInstance: {fileID: 172787792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &172787794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172787793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 188627d775dad79ef9e90f4f80cfc59a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glowstick_prefab: {fileID: 6771187510836562334, guid: 7eef972696b474561b657cf3e5133c52,
+    type: 3}
 --- !u!1 &258272648
 GameObject:
   m_ObjectHideFlags: 0

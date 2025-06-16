@@ -10,6 +10,24 @@ public class Proc_Gen_UI : MonoBehaviour
     [SerializeField] private TMP_Text remainingKeys;
     [SerializeField] private TMP_Text remainingKeysText;
     [SerializeField] private Image trapDoorImg;
+    
+    [SerializeField] private GameObject objectivePanel;
+
+    public void DisplayObjective()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        objectivePanel.SetActive(true);
+        Time.timeScale = 0f; // Pause the game
+    }
+
+    public void HideObjective()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        objectivePanel.SetActive(false);
+        Time.timeScale = 1f; // Resume the game
+    }
     public void UpdateCurrentFloor(int _currentFloor)
     {
         currentFloor.text = _currentFloor.ToString();

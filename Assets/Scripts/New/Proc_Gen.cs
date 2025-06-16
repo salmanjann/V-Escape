@@ -67,9 +67,14 @@ public class Proc_Gen : MonoBehaviour
         currentY = player.GetComponent<Rigidbody>().position.y;
         procGenUI.UpdateTrapDoorImage("red");
         Generate();
-    
+
         player_MovementRef.minutesToDecrease = keyRings[currentFloor - 1];
         // player_MovementRef.increaseFlash();
+        Invoke("DisplayObjective", 2f);
+    }
+    void DisplayObjective()
+    {
+        procGenUI.DisplayObjective();
     }
 
     void Update()

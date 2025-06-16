@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5408001945936009606
 Transform:
@@ -186,10 +186,20 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5443723819149381746, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: -4836302133340064991, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
         type: 3}
       propertyPath: m_CastShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2554694171741848495, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: -2415857919065421525, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
         type: 3}
@@ -201,10 +211,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bush
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 944810104718465533, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
         type: 3}
       propertyPath: m_CastShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1226677202548983472, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074953473184166935, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: 89c6a0dbe911d89c6bb7c7e9d1e7e8d4,
         type: 3}

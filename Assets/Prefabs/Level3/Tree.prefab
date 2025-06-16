@@ -148,22 +148,22 @@ PrefabInstance:
     - target: {fileID: 4742473837712756890, guid: 74ca1b1b17e6ef633a51e23c87641f4a,
         type: 3}
       propertyPath: m_LODs.Array.data[0].screenRelativeHeight
-      value: 0.82572347
+      value: 0.9458535
       objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: 74ca1b1b17e6ef633a51e23c87641f4a,
         type: 3}
       propertyPath: m_LODs.Array.data[1].screenRelativeHeight
-      value: 0.37570184
+      value: 0.88146096
       objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: 74ca1b1b17e6ef633a51e23c87641f4a,
         type: 3}
       propertyPath: m_LODs.Array.data[2].screenRelativeHeight
-      value: 0.2217927
+      value: 0.81324804
       objectReference: {fileID: 0}
     - target: {fileID: 4742473837712756890, guid: 74ca1b1b17e6ef633a51e23c87641f4a,
         type: 3}
       propertyPath: m_LODs.Array.data[3].screenRelativeHeight
-      value: 0.0930326
+      value: 0.01713874
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

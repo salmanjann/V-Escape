@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class Player_Movement : MonoBehaviour
 {
@@ -112,6 +113,12 @@ public class Player_Movement : MonoBehaviour
             {
                 redBlinkingRef.StopBlinking();
             }
+            died = true;
+            loadin_Animator.SetTrigger("SlideIn");
+            Invoke("startLoadingIntro", 1f);
+        }
+        if (this.gameObject.scene.name == "Forest" && this.transform.position.y <= -10f)
+        {
             died = true;
             loadin_Animator.SetTrigger("SlideIn");
             Invoke("startLoadingIntro", 1f);

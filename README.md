@@ -1,15 +1,29 @@
-# V-Escape
-Final Year Project. 
+# V-Escape 🎮
 
-Step 1: Clone the repo
+**V-Escape** is a 3D multi-level horror game that explores procedural environment generation, immersive gameplay, and survival mechanics. Developed as a Final Year Project, the game places players in dynamically generated haunted locations where escape is the only goal — but every run is different.
 
-Step 2: Open Unity Hub, select add project and open up the V-Escape directory
+## 🧠 Core Features
 
-Step 3: In Unity, goto Edit > Project Settings > Editor. Look for Asset Serialization and set the Mode to "Force Text".
+- **Procedural Environment Generation**  
+  Unique haunted houses, labyrinths, and forests are generated each time to ensure replayability.
 
-Step 4: In Unity, goto Edit > Project Settings > Version Control. Look for "Asset Serialization" and set the "Mode" to "Visible Meta Files".
+- **Multi-Level Gameplay**  
+  Navigate through eerie levels with increasing difficulty — from a creepy mansion to a foggy forest and a shifting labyrinth.
 
-Step 5 (Optional) : In Unity, goto Edit > Prefernces > External Tools. Set the "External Text Editor" as "Visual Studio Code". If you choose "Visual Studio Code", make sure to install "Unity" and "C#" extensions. 
+- **Horror Mechanics**  
+  Atmospheric lighting, spatial audio, and unexpected jump scares create an intense survival horror experience.
 
+- **Modular Game Design**  
+  Clean architecture using Unity’s prefab and scriptable object system for flexible content expansion.
 
-## Note : V-Escape is currently developed on Unity (2022.3.48f1) LTS
+## 🛠️ Technologies Used
+
+- Unity (C#)
+- Blender (for modeling)
+- GitHub (version control)
+
+## 🚀 Getting Started
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/v-escape.git
